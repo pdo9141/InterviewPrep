@@ -17,4 +17,6 @@
 13) What is a pivot?
 14) What is cross apply?
 15) What's the difference between union and unionall?
+16) What is EAV?
+	Means Entity-Attribute-Value, storing data in DB non-relationally, name/value pair really
 
