@@ -26,5 +26,29 @@ namespace UnitTestProject1
         {
             return (T)obj;
         }
+
+        [TestMethod]
+        public void ProveSingleInstanceOfStaticClass_Test()
+        {
+            // We have inovked the method twice but the constructor will fire once
+            MyStaticClass.SomeMethod();
+            MyStaticClass.iCount++;
+            MyStaticClass.iCount++;
+            MyStaticClass.SomeMethod();
+        }
+
+        public static class MyStaticClass
+        {
+            public static int iCount;
+
+            // If only one instance of the object is created then this constructor should run only once.
+            static MyStaticClass()
+            {
+            }
+
+            public static void SomeMethod()
+            {
+            }
+        }
     }
 }

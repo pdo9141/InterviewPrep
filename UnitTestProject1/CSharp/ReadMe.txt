@@ -61,7 +61,10 @@
 	CLR (common language runtime) is execution engine for .NET code, runs IL code, handles garbage collection, converting IL to machine code by transferring control to JIT, thread management, CAS
 	CTS (common type system) allows component written in C# to be used in component written in VB and vice versa, all primitive type in both languages derive from types in CTS Int32, Int64, etc
 	CLS (common language specification) defines set of rules every .NET language (C#, VB) must follow if they want to communicate with each other
-	CAS (code access security), https://www.youtube.com/watch?v=qNnOi5xi9KM 
+	CAS (code access security), grant access or permissions to your .NET assemblies based on evidence values (publisher, from internet, compiled on same computer, strong names), code groups, permission set
+		Gather evidence about assembly, depending on evidence assign it to a code group, apply code group security, run the assembly with the security
+		Imagine downloading executable from internet? Can you completely trust it? Go to Visual Studio command and use caspol command or download .NET Framework Configuration tool to help apply code access security
+		You can create permission sets and assign permissions in the tool, assign permission set to code group
 	BCL (base class libraries) System.IO, System.Data, etc
 20) Difference between thread, process, AppDomain
 21) Difference between assembly, exe, DLL
@@ -91,3 +94,7 @@
 31) Debug vs Release
 32) Multithreading and thread safety
 33) What is a namespace?
+34) What is authenticode?
+35) What is strong name?
+36) How do you prove there is only 1 instance of static class?
+	Create static class with static constructor, call same method on that class multiple times, constructor should only be entered once, you can also add a counter and increment multiple times to verify that it's a global variable now
