@@ -53,28 +53,41 @@
 	IEnumerable you can take a List and traverse the collection with foreach, IEnumerable uses IEnumerator internally
 	IEnumerator you can take a List and traverse by getting enumerator and using the MoveNext(), then Current
 	Use IEnumerable usually cause coding is easier but use IEnumerator if you need that state tracking, you're doing MoveNext so Current retains your existing state
-18) IL Code, CLR, CTS, CAS
-19) Difference between thread, process, AppDomain
-20) Difference between assembly, exe, DLL
-21) Abstraction and Encapsulation
+18) What is the .NET Framework?
+	Platform you can use to developing, building, and deployment various applications such as windows, WPF, web, WPF, web services WCF
+19) IL Code, JIT, CLR, CTS, CLS, CAS, BCL
+	IL Code, intermediate language, is partially compiled code, compiler compiles your C# code into IL Code, during runtime JIT compiler (taking into account OS, hardware, configs) compiles IL Code into machine code (optimal code for environment)
+	JIT (just in time compiler) is the runtime compiler, during runtime compiles IL code to machine code
+	CLR (common language runtime) is execution engine for .NET code, runs IL code, handles garbage collection, converting IL to machine code by transferring control to JIT, thread management, CAS
+	CTS (common type system) allows component written in C# to be used in component written in VB and vice versa, all primitive type in both languages derive from types in CTS Int32, Int64, etc
+	CLS (common language specification) defines set of rules every .NET language (C#, VB) must follow if they want to communicate with each other
+	CAS (code access security), https://www.youtube.com/watch?v=qNnOi5xi9KM 
+	BCL (base class libraries) System.IO, System.Data, etc
+20) Difference between thread, process, AppDomain
+21) Difference between assembly, exe, DLL
+	Assembly is single unit of deployment, precompiled chunk of .NET code which can be run by the CLR, can be EXE or DLL
+	EXE (Executable) is an assembly that runs in it's own address or memory space, executing an EXE creates a new process, could be console app, windows service
+	DLL (Dynamic Link Library) is an assembly that runs inside a host (could be console app, windows service, etc.) 
+22) Abstraction and Encapsulation
 	Abstraction hiding implementation details by providing generic layer, interfaces, abstract classes. Represent essential features, no tedious detail, think higher level concepts
 	Encapsulation is about information hiding, give clients only access to properties and methods they absolutely need
-22) What is polymorphism?
+23) What is polymorphism?
 	Utilizing the same abstract code execution and make it behave differently depending on concrete classes used
-23) Can .NET leak memory?
+24) Can .NET leak memory?
 	No, garbage collection handled by runtime but with LOH fragmentation it can be considered a leak cause it throws an OutOfMemory Exception
-24) What are anonymous methods and uses?
+25) What are anonymous methods and uses?
 	Method coded inline using delegate keyword, PointAddFunction pointAdd = delegate(int num1, int num2) { return num1 + num3; }; pointAdd.Invoke(2, 2);
 	Use instead of full blown delegate declaration and methods, use when you're lazy, anonymous methods are better performing than delegates
-25) What is indexer?
+26) What is indexer?
 	When you have a class that has a collection children for example Customer has Addresses, helps simplify the way we access child collections of a class
 	Add this getter/setter property, e.g., public Address this[int PinCode] { get{}}, public Address this[PhoneNumber] { get{} }
-26) What is shadowing and it's uses?
-27) What is contravariance and covariance?
-28) How are tuple and anonymous types useful?
+27) What is shadowing and it's uses?
+28) What is contravariance and covariance?
+29) How are tuple and anonymous types useful?
 	When you want one logical unit but don't want to create a full blown object. Can be used as method parameters or return types, minimize code
 	For readability and maintainablity it's better to use anonymous types to see meaningful names (no Item1, Item2 etc.)
 	If you want to return an anonymous type from a method, return object then write a generic cast method, send in anonymous signature with defaults as Type parameter in cast method
-29) What is unchecked and checked?	
-30) Debug vs Release
-31) Multithreading and thread safety
+30) What is unchecked and checked?	
+31) Debug vs Release
+32) Multithreading and thread safety
+33) What is a namespace?
