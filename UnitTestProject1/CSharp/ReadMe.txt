@@ -54,7 +54,7 @@
 	IEnumerator you can take a List and traverse by getting enumerator and using the MoveNext(), then Current
 	Use IEnumerable usually cause coding is easier but use IEnumerator if you need that state tracking, you're doing MoveNext so Current retains your existing state
 18) What is the .NET Framework?
-	Platform you can use to developing, building, and deployment various applications such as windows, WPF, web, WPF, web services WCF
+	Platform you can use to developing, building, and deployment various applications such as windows, WPF, web ASP.NET, WPF, web services, WCF
 19) IL Code, JIT, CLR, CTS, CLS, CAS, BCL
 	IL Code, intermediate language, is partially compiled code, compiler compiles your C# code into IL Code, during runtime JIT compiler (taking into account OS, hardware, configs) compiles IL Code into machine code (optimal code for environment)
 	JIT (just in time compiler) is the runtime compiler, during runtime compiles IL code to machine code
@@ -95,6 +95,24 @@
 32) Multithreading and thread safety
 33) What is a namespace?
 34) What is authenticode?
-35) What is strong name?
-36) How do you prove there is only 1 instance of static class?
+35) What are weak and strong naming assemblies?
+	Weak named assemblies are not signed with private/public key pair so not guaranateed to be unique and may cause DLL hell
+	Strong named assemblies are signed by key pair (snk), stored in GAC, consist of four parts: textual name, version number, culture information, public key token
+	To generate snk key pair, go to VS command prompt, use command sn.exe -k c:\YourAssembly.snk, go to AssemblyInfo.cs and add [assembly: AssemblyKeyFile("C:\\YourAssembly.snk")]
+	Once you rebuild the assembly is now signed with that private/public key pair
+	Strong name assemblies are guranteed to be unique, solves DLL hell
+36) What is DLL hell and how is it solved in .NET?
+	Situation where mulitple applications share same assembly, you solve this problem by strong naming assemblies
+	Imagine two console applications (A1, A2) referencing same class library (CL) built into same bin directory, both apps call CL.GetMsg
+	A2 undergoes major changes and also updates CL, it changes CL.GetMsg to CL.GetMessage (changes not backwards compatible), A1 is now broken
+	Strong name CL by going into VS command prompt: gacutil -i C:\MyApp\CL.dll to install in GAC, make breaking change to CL, change version number and install that in the GAC, now you're good
+	.NET searches GAC first then if it doesn't find it it searches path the executable is running in for it
+37) What is GAC (c:\Windows\assembly and c:\windows\microsoft.net\assembly\gac_msil\v4.0xxx)?
+	Global Assembly Cache is where all BCL are installed after you install .NET, you can install your own strong named assemblies into the GAC as well, all assemblies in GAC must be strong named
+38) How do you prove there is only 1 instance of static class?
 	Create static class with static constructor, call same method on that class multiple times, constructor should only be entered once, you can also add a counter and increment multiple times to verify that it's a global variable now
+39) Explain version number and it's parts
+	Default is 1.0.0.0, four parts: major version, minor version, build number, revision number, depending in significant changes to assembly, you update the version number appropriately
+	To change the version, go to Properties folder, AssemblyInfo.cs file and update it there, update the AssemblyVersion
+	To can change the AssemblyCulture here as well but most of the time you want it as empty string meaning neutral culture
+40) What's the difference between build and rebuild?
