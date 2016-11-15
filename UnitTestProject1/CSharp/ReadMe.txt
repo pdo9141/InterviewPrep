@@ -116,3 +116,6 @@
 	To change the version, go to Properties folder, AssemblyInfo.cs file and update it there, update the AssemblyVersion
 	To can change the AssemblyCulture here as well but most of the time you want it as empty string meaning neutral culture
 40) What's the difference between build and rebuild?
+41) What is implicit operator?
+	Implicit operators allow conversions without casting. This makes it possible to assign one class instance to another. 
+	The implicit keyword is always used with the operator keyword. It requires a public static method that returns the type you want to convert to and accepts the type you are converting from
