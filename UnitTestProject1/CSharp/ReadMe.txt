@@ -91,7 +91,12 @@
 	For readability and maintainablity it's better to use anonymous types to see meaningful names (no Item1, Item2 etc.)
 	If you want to return an anonymous type from a method, return object then write a generic cast method, send in anonymous signature with defaults as Type parameter in cast method
 30) What is unchecked and checked?	
+	If you have int y and int x with maximum value of 2147483647 and you do int z = x + y, you don't get a compile or runtime overflow error (z will equal -2)
+	If you use int z = checked(x + y), you get an overflow exception
+	Unchecked acts the same as the default so z = x + y is the same as z = unchecked(x + y) unless int y and x are const, if they are you would get an overflow exception
 31) Debug vs Release
+	Debug build mode meant for debugging (pdbs), code is not optimized
+	Release build mode the code is optimized, debug code (#if DEBUG #endif) removed
 32) Multithreading and thread safety
 33) What is a namespace?
 34) What is authenticode?
@@ -116,6 +121,16 @@
 	To change the version, go to Properties folder, AssemblyInfo.cs file and update it there, update the AssemblyVersion
 	To can change the AssemblyCulture here as well but most of the time you want it as empty string meaning neutral culture
 40) What's the difference between build and rebuild?
+	Build will only build code files that have changed (incremental)
+	Rebuild will build all code files, it will clean first and build everything from scratch
 41) What is implicit operator?
 	Implicit operators allow conversions without casting. This makes it possible to assign one class instance to another. 
 	The implicit keyword is always used with the operator keyword. It requires a public static method that returns the type you want to convert to and accepts the type you are converting from
+42) Difference between throw and throw ex?
+	Throw is better, gives you complete stacktrace from source of exception to caller
+	Throw ex doesn't give you complete stacktrace, starts from the method that caught throw ex
+43) What is circular dependency or reference and how can you avoid it?
+	This happens when class library A uses class library B and class library B uses class library A
+	You can resolve this by using interface in between (polymorphism), create another library, class A and B will now both reference this library
+44) How do you debug C# threads?
+		
