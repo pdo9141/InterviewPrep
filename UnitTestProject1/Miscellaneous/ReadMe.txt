@@ -14,4 +14,5 @@
 	Nail down your encapsulation, private setters, only allow clients to update fields they are allowed to update
 06) How do you get rid of switch statements?
 	You leverage polymorphism
+07) Describe SSL and TLS, what's the difference?
 
