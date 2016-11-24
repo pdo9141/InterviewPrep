@@ -15,4 +15,26 @@
 06) How do you get rid of switch statements?
 	You leverage polymorphism
 07) Describe SSL and TLS, what's the difference?
-
+	TLS (Transport Layer Security) protocol is the successor of SSL (Secure Sockets Layer) protocol, more secure. SSL is the predecessor of TLS
+	Step 1: You purchase an SSL certificate (public/private key pair) from a Certificate Authority or CA (Comodo, Verisign) and install it on your web server. 
+			Make sure you ask for SHA 256 (SHA 2), you create Certificate Signing Request (CSR) on your server. This process creates the private and public keys on your server.
+			The CSR data file that you send to the SSL Certificate issuer (called a Certificate Authority or CA) contains the public key. The CA uses the CSR data 
+			file to create a data structure to match your private key without compromising the key itself. The CA never sees the private key.
+			The most important part of an SSL Certificate is that it is digitally signed by a trusted CA like DigiCert. Anyone can create a certificate, but browsers 
+			only trust certificates that come from an organization on their list of trusted CAs. Browsers come with a pre-installed list of trusted CAs, known as the 
+			Trusted Root CA store. In order to be added to the Trusted Root CA store and thus become a Certificate Authority, a company must comply with and be audited 
+			against security and authentication standards established by the browsers. An SSL Certificate issued by a CA to an organization and its domain/website verifies 
+			that a trusted third party has authenticated that organization’s identity. Since the browser trusts the CA, the browser now trusts that organization’s identity 
+			too. The browser lets the user know that the website is secure, and the user can feel safe browsing the site and even entering their confidential information.
+	Step 2: Browser connects to a web server (website) secured with SSL (https). Browser requests that the server identify itself.
+	Step 3: Server sends a copy of its SSL Certificate, including the server’s public key.
+	Step 4: Browser checks the certificate root against a list of trusted CAs and that the certificate is unexpired, unrevoked, and that its common name is valid for the website that it is connecting to. If the browser trusts the certificate, it creates, encrypts, and sends back a symmetric session key using the server’s public key.
+	Step 5: Server decrypts the symmetric session key using its private key and sends back an acknowledgement encrypted with the session key to start the encrypted session.
+	Step 6: Server and Browser now encrypt all transmitted data with the session key.
+08) How does digitally signing something work?
+	Digital signatures are typically made in a two-step process. The first step is to use a secure hashing algorithm on the data. SHA-2 algorithms would be an example of that. 
+	The second step is to encrypt the resulting output with the private signing key. Thus, when a signature is verified by the public key, it decrypts to a hash matching the message. 
+	That hash can only be decrypted using the public key if it were encrypted with the private signing key. Public keys are created by the keypair owner. Certificate authorities 
+	sign the public key's certificate. Server owners install that signed certificate. In SSL (which I assume you're referring to), the certificate including the key and signature 
+	from the certificate authority is passed by the server you're connected to. You software checks that the site it's connecting to matches the data in the certificate, and 
+	validates the certificate by checking its signature against the certificate authority's key. Certificate authorities use their keys for signing and servers use their keys for encryption.
