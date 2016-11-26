@@ -1,0 +1,90 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+	<meta charset="utf-8" />
+</head>
+<body>
+
+    <script type="text/javascript">
+
+        function testScope1() {
+            var a = 10;
+            if (a > 5) { a = 7; }
+            alert(a);
+        }
+
+        testScope1(); // Will alert 7, you declared local variable and set its value to 10 then did check, as expected
+        
+        function testScope2() {
+            if (true) { var a = 5; }
+            alert(a);
+        }
+
+        testScope2(); // Will alert 5, Javascript has "Function Scope" so any local variable defined in the function will be available to all within it
+
+        function testScope3() {
+            a = 3;
+            alert(a);
+        }
+
+        testScope3(); // Will alert 3, since a wasn't specifically declared (using var), it was assumed to be global
+
+        var b;
+        function testScope4() {
+            b = 3;
+            alert(b);
+        }
+
+        testScope4(); // Will alert 3, a and b in testScope3 and testScope4 are effectively the same thing, global variables are stored in the window object
+
+        var a = 5;
+        function testScope5() {
+            a = 6;
+        }
+
+        function testScope6() {
+            alert(a);
+        }
+
+        testScope5();
+        testScope6(); // Will alert 6, a is a global variable all the way through
+
+        function testScope7() {
+            window.c = 3;
+        }
+
+        function testScope8() {
+            alert(c);
+        }
+
+        testScope7();
+        testScope8(); // Will alert 3, recall that global variables are stored in the window object
+
+        var d = 5;
+        function testScope9() {
+            var d = 7;
+            alert(d);
+        }
+
+        testScope9(); // Will alert 7, Javascript works from in to out, looks locally first in function then if it doesn't find it will look globally
+
+        var e = 6;
+        function testScope10() {
+            var e = 7;
+            function testScope11() {
+                var e = 8;
+                alert(e);
+            }
+            testScope11();
+            alert(e);
+        }
+
+        testScope10();  // Will alert 8 then 7, remember Javascript works from in to out, most local first then globally
+        alert(e);       // Will alert 6
+
+
+    </script>
+
+</body>
+</html>

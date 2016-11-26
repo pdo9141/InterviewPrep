@@ -14,7 +14,10 @@
 	Nail down your encapsulation, private setters, only allow clients to update fields they are allowed to update
 06) How do you get rid of switch statements?
 	You leverage polymorphism
-07) Describe SSL and TLS, what's the difference?
+07) What's the difference between http and https?
+	http (Hypertext Transfer Protocol) for data communication between browser and server, request/response protocol
+	https (Hypertext Transfer Protocol Secure) is http wrapped in SSL which encrypts communications between browser and server
+08) Describe SSL and TLS, what's the difference?
 	TLS (Transport Layer Security) protocol is the successor of SSL (Secure Sockets Layer) protocol, more secure. SSL is the predecessor of TLS
 	Step 1: You purchase an SSL certificate (public/private key pair) from a Certificate Authority or CA (Comodo, Verisign) and install it on your web server. 
 			Make sure you ask for SHA 256 (SHA 2), you create Certificate Signing Request (CSR) on your server. This process creates the private and public keys on your server.
@@ -28,13 +31,17 @@
 			too. The browser lets the user know that the website is secure, and the user can feel safe browsing the site and even entering their confidential information.
 	Step 2: Browser connects to a web server (website) secured with SSL (https). Browser requests that the server identify itself.
 	Step 3: Server sends a copy of its SSL Certificate, including the server’s public key.
-	Step 4: Browser checks the certificate root against a list of trusted CAs and that the certificate is unexpired, unrevoked, and that its common name is valid for the website that it is connecting to. If the browser trusts the certificate, it creates, encrypts, and sends back a symmetric session key using the server’s public key.
+	Step 4: Browser checks the certificate root against a list of trusted CAs and that the certificate is unexpired, unrevoked, and that its common name is valid for the website that it is connecting to. 
+			If the browser trusts the certificate, it creates, encrypts, and sends back a symmetric session key using the server’s public key.
 	Step 5: Server decrypts the symmetric session key using its private key and sends back an acknowledgement encrypted with the session key to start the encrypted session.
 	Step 6: Server and Browser now encrypt all transmitted data with the session key.
-08) How does digitally signing something work?
+09) How does digitally signing something work?
 	Digital signatures are typically made in a two-step process. The first step is to use a secure hashing algorithm on the data. SHA-2 algorithms would be an example of that. 
 	The second step is to encrypt the resulting output with the private signing key. Thus, when a signature is verified by the public key, it decrypts to a hash matching the message. 
 	That hash can only be decrypted using the public key if it were encrypted with the private signing key. Public keys are created by the keypair owner. Certificate authorities 
 	sign the public key's certificate. Server owners install that signed certificate. In SSL (which I assume you're referring to), the certificate including the key and signature 
 	from the certificate authority is passed by the server you're connected to. You software checks that the site it's connecting to matches the data in the certificate, and 
 	validates the certificate by checking its signature against the certificate authority's key. Certificate authorities use their keys for signing and servers use their keys for encryption.
+	Step 1: Sender sends the original data, the encrypted data, the public key, and information about how to verify the signature (for example, what algorithm is being used)
+	Step 2: Verifier performs the decrypt operation above and compares his output with the original data. If the two are the same, he knows that the message was not tampered with, because only
+			the sender has the private key, and there is no reasonable way to determine the private key from the public key

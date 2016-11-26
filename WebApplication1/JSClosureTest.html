@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <script type="text/javascript">
+
+        function getFunc() {
+            var a = 7;
+            return function (b) {
+                alert(a + b);
+            }
+        }
+
+        var f = getFunc();
+        f(5);
+
+        // Will alert 12
+        /*
+        Once getFunc() returns, you might think that all of its local variables would be deallocated. However, that little anonymous function, 
+        which alerts to the screen, still has access to the variable a! What gives? Essentially, getFunc() returns a reference to another, 
+        anonymous function. Later on, we call that function, and it still has access to all of the variables it had access to at the time of creation. 
+        All of these variables that the function has access to at its creation create a closure, which sticks around for as long as the function pointer itself does.
+        Because of this, when we call f(5), the function is still able to see that a has a value of 7, and it therefore alerts 12.
+        */
+    </script>
+</body>
+</html>
