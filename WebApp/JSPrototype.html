@@ -1,0 +1,42 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+
+    <script type="text/javascript">
+
+        function privilegedAnimal() {
+            var privateData = 'foo'
+            this.name = 'rover';
+
+            this.set_name = function (name) {
+                this.name = name;
+                alert(this.name);
+                alert(privateData); //will alert 'foo'
+            }
+        }
+
+        function animal() {
+            var privateData = 'foo'
+            this.name = 'rover';
+        }
+
+        animal.prototype.set_name = function (name) {
+            this.name = name;
+            alert(this.name);
+            alert(privateData); //will throw undefined error
+        }
+
+        var animal1 = new privilegedAnimal();
+        animal1.set_name("Privileged Name");
+
+        var animal1 = new animal();
+        animal1.set_name("Prototype Name");
+
+    </script>
+
+</body>
+</html>
