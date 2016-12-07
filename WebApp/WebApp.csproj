@@ -242,7 +242,11 @@
     <Content Include="js\jsFrameworks\jquery-1.10.2.min.js" />
     <Content Include="js\jsFrameworks\knockout-3.4.0.js" />
     <Content Include="js\jsFrameworks\ladda.min.js" />
+    <Content Include="js\jsFrameworks\log4javascript.js" />
+    <Content Include="js\jsFrameworks\moment.min.js" />
     <Content Include="js\jsFrameworks\require.js" />
+    <Content Include="js\jsFrameworks\stacktrace-0.6.4.min.js" />
+    <Content Include="js\jsFrameworks\text.js" />
     <Content Include="js\jsFrameworks\toastr.min.js" />
     <Content Include="js\utility.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -269,6 +273,8 @@
     <Content Include="Content\toastr.less" />
     <Content Include="Content\toastr.scss" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\director.js" />
+    <Content Include="js\jsFrameworks\director.min.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -276,9 +282,21 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\log4javascript.js" />
+    <Content Include="Scripts\log4javascript_uncompressed.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\r.js" />
+    <Content Include="Scripts\require.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\stacktrace-0.6.4.js" />
+    <Content Include="Scripts\stacktrace-0.6.4.min.js" />
+    <Content Include="Scripts\text.js" />
+    <Content Include="templates\template.html" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -294,6 +312,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Scripts\stacktrace-0.6.4.js.map" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

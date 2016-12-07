@@ -1,4 +1,30 @@
-﻿define(['jquery', 'toastr', 'utility', 'amplify'], function ($, toastr, Utils) {
+﻿define(['jquery', 'toastr', 'utility', 'moment', 'text!../templates/template.html', 'log4javascript', 'stacktrace', 'amplify', 'director'], function ($, toastr, Utils, moment, html, log4js, stacktracer) {
+
+    /********* director handles routing *****************/
+    var author = function () { console.log("author"); };
+    var books = function () { console.log("books"); };
+    var viewBook = function (bookId) {
+        console.log("viewBook: bookId is populated: " + bookId);
+    };
+
+    var routes = {
+        '/author': author,
+        '/books': [books, function () {
+            console.log("An inline route handler.");
+        }],
+        '/books/view/:bookId': viewBook
+    };
+
+    var router = Router(routes);
+    router.init();
+
+    /********* moment handles dates *****************/
+    console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
+    console.log(moment().format('MMMM Do YYYY, h:mm:ss a'));
+    console.log(moment().format('dddd'));
+    console.log(moment().format("MMM Do YY"));
+    console.log(moment().format('YYYY [escaped] YYYY'));
+    console.log(moment().format());
 
     /********* Basic JQuery and toastr test *****************
     $('div#tester1').html('Hello from the other side!');
@@ -57,5 +83,23 @@
         }
     );
     *********************************************************/
-    
+
+    /********* text.js handles pulling in text files (html, css, etc) *****************/
+    $("div#tester6").html(html);
+
+    /********* log4javascript *****************/
+    var a = "Hello";
+    var b = 3;
+    var log = log4js.getDefaultLogger();
+    log.info("Hello world");
+    log.debug(a, b);
+
+    /********* stacktrace *****************/
+    try {
+        failcode.fakeMethod();
+    } catch (ex) {
+        var stackTrace = stacktracer({ e: ex });
+        console.log(stackTrace);
+    }
+
 });
