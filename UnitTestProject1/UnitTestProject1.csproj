@@ -57,7 +57,12 @@
     <Content Include="CSharp\ReadMe.txt" />
     <Content Include="Database\ReadMe.txt" />
     <Content Include="Miscellaneous\ReadMe.txt" />
+    <Content Include="Web\Javascript\ReadMe.txt" />
     <Content Include="Web\ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Web\CSS\" />
+    <Folder Include="Web\HTML\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
