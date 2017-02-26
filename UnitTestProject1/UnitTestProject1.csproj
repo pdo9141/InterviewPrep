@@ -54,6 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CSharp\Questions.txt" />
     <Content Include="CSharp\ReadMe.txt" />
     <Content Include="Database\ReadMe.txt" />
     <Content Include="Miscellaneous\ReadMe.txt" />

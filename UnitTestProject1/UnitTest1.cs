@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestProject1
@@ -48,6 +49,26 @@ namespace UnitTestProject1
 
             public static void SomeMethod()
             {
+            }
+        }
+
+        [TestMethod]
+        public void RecursionFindFilesExample_Test()
+        {
+            FindFiles(@"C:\temp\OdeToFood");
+        }
+
+        private static void FindFiles(string path)
+        {
+            foreach (string fileName in Directory.GetFiles(path))
+            {
+                Console.WriteLine(fileName);
+            }
+
+            foreach (string directory in Directory.GetDirectories(path))
+            {
+                // Notice that FindFiles() is calling itself
+                FindFiles(directory);
             }
         }
     }

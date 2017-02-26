@@ -1,0 +1,22 @@
+﻿https://www.youtube.com/watch?v=yyU3bXyc_oU&index=3&list=PL6n9fhu94yhWlAv3hnHzOaMSeggILsZFs&t=87s
+
+01) Can you store different types in an array?
+	Yes, if you create an object array. You can also use the ArrayList collection if you wanted to
+02) What is a jagged array?
+	It is an array of arrays, string[][] jaggedArray = new string[3][], jaggedArray[0] = new string[3], jaggedArray[1] = new string[1], jaggedArray[2] = new string[2]
+	You first specify the main array length then at each index of main array specify array length for array at that index
+	I usually use an object to model the jagged array semantics instead
+03) Why and when should you use an abstract class?
+	You use it when you want to avoid code duplication. Move common functionality into base class. When you utilize a abstract structure but also have default implementation. 
+	Great tool to implement the Template Pattern where you code in hooks and have the child classes provide the implementation for the hooks. Use the abstract, virtual, and override keywords
+	Why wouldn't you just use a concrete class for the base instead? You don't want developers to new up instance of the concrete base class plus you lose polymorphic reuse
+04) What are the advantages of using interfaces?
+	Interfaces allow us to develop loosely coupled systems. 
+	Interfaces are very useful for Dependency Injection.
+	Interfaces make unit testing and mocking easier.		
+05) What is a recursive function? Explain with example.
+	A recursive function is a function that calls itself. Factorial (product of all positive integers (no zero) less than or equal to n) of a number is one, 
+	you don't have to use recursion for this but better with recursion. 
+06) Real time example of recursion
+	We had Property object which held collection of child properties. Each property had a reference to ParentId, we used recursive method to update all ParentIds after cloning property
+	A good example is to find all the files in a folder and in all the sub-folders in the hierarchy passing the initial folder path
