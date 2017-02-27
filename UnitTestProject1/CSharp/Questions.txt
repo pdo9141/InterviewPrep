@@ -20,3 +20,35 @@
 06) Real time example of recursion
 	We had Property object which held collection of child properties. Each property had a reference to ParentId, we used recursive method to update all ParentIds after cloning property
 	A good example is to find all the files in a folder and in all the sub-folders in the hierarchy passing the initial folder path
+07) Is it possible to store n number of lists of different types in a single generic list?
+	Yes, by creating a list of list of objects
+08) Can an abstract class have a constructor?
+	Yes, an abstract class can have a constructor. In general, a class constructor is used to initialise fields. Along the same lines, an abstract class constructor is used to 
+	initialise fields of the abstract class. You would provide a constructor for an abstract class if you want to initialise certain fields of the abstract class before the 
+	instantiation of a child-class takes place. An abstract class constructor can also be used to execute code that is relevant for every childclass. This prevents duplicate code.
+09) Can you call an abstract method from an abstract class constructor?
+	Yes, an abstract method can be called from an abstract class constructor. The derived class implementation will be called within the abstract class constructor
+10) What happens if finally block throws an exception?
+	The exception propagates up, and should be handled at a higher level. If the exception is not handled at the higher level, the application crashes. The "finally" block execution stops at the point where the exception is thrown.
+	Irrespective of whether there is an exception or not "finally" block is guaranteed to execute. 
+	1. If the "finally" block is being executed after an exception has occurred in the try block, 
+	2. and if that exception is not handled
+	3. and if the finally block throws an exception then the original exception that occurred in the try block is lost.
+11) What is the difference between IS and AS keywords?
+	The is operator returns true if an object can be cast to a specific type, otherwise false.
+	The as operator attempts to cast an object to a specific type, and returns null if it fails.
+	Another way to cast an object is by using the cast operator. The cast operator throws an exception if the cast fails.
+12) What is the difference between int and Int32?
+	Int32 and int are synonymous, both of them allow us to create a 32 bit integer. int is shorthand notation (alias) for Int32. When declaring an integer in a c# program most of us prefer using int over Int32. 
+	Whether we use int or Int32 to create an integer, the behaviour is indentical. I think the only place where Int32 is not allowed is when creating an enum. 
+	I can think of only the following minor differences between int and Int32
+	1. One of the difference is in readability. When we use Int32, we are being explicit about the size of the variable.
+	2. To use Int32, either we need to use using System declaration or specify the fully qualified name (System.Int32) where as with int it is not required
+	The interviewer may also ask, what is the difference between string and System.String. 
+	There is no difference string is an alias for System.String.
+13) How do you reverse each word in a string?
+	Split the input string using a single space as the separator. Split() method returns a string array that contains each word of the input string.
+	Select method, constructs a new string array, by reversing each character in each word.
+	Join method converts the string array into a string.
+14) An abstract clas has a default implementation for a method. The method's default implementation is needed in some class but not in some other class, how is this done?
+	Use the virtual and override keywords

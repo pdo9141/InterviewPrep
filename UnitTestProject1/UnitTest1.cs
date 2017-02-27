@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace UnitTestProject1
@@ -70,6 +71,17 @@ namespace UnitTestProject1
                 // Notice that FindFiles() is calling itself
                 FindFiles(directory);
             }
+        }
+
+        [TestMethod]
+        public void ReverseEachWordInString_Test()
+        {
+            var inputString = "one two three four five";
+            string resultString = string.Join(" ", inputString
+                .Split(' ')
+                .Select(x => new String(x.Reverse().ToArray())));
+
+            Console.WriteLine(resultString);
         }
     }
 }
