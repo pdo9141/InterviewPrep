@@ -1,3 +1,14 @@
 ﻿https://www.youtube.com/watch?v=fvPddKyHxpQ&list=PL6n9fhu94yhXcztdLO7i6mdyaegC8CJwR
 
-01) 
+01) Find Nth Highest Salary in SQL
+	You can find nth highest salary in SQL Server using a Sub-Query and leverage TOP and ORDER BY
+	You can find nth highest salary in SQL Server using a DENSE_RANK and CTE (or subquery)
+02) SQL Query to get Org. Hierarchy (Organization Chart) passing employee ID
+	Use a recursive CTE with UNION ALL and then self-join
+03) How does a recursive CTE work?
+	Step 1: Execute the anchor part and get result R0
+	Step 2: Execute the recursive member using R0 as input and generate result R1
+	Step 3: Execute the recursive member using R1 as input and generate result R2
+	Step 4: Recursion goes on until the recursive member output becomes NULL
+	Step 5: Finally apply UNION ALL on all the results to produce the final output
+		

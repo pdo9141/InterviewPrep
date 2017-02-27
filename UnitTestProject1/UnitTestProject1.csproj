@@ -56,6 +56,9 @@
   <ItemGroup>
     <Content Include="CSharp\Questions.txt" />
     <Content Include="CSharp\ReadMe.txt" />
+    <Content Include="Database\Question01\Queries.sql" />
+    <Content Include="Database\Question02\Queries.sql" />
+    <Content Include="Database\Question03\Queries.sql" />
     <Content Include="Database\Questions.txt" />
     <Content Include="Database\ReadMe.txt" />
     <Content Include="Miscellaneous\ReadMe.txt" />
