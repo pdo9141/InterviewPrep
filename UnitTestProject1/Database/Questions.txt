@@ -11,4 +11,13 @@
 	Step 3: Execute the recursive member using R1 as input and generate result R2
 	Step 4: Recursion goes on until the recursive member output becomes NULL
 	Step 5: Finally apply UNION ALL on all the results to produce the final output
-		
+04) Delete duplicate rows in SQL
+	Use ROW_NUMBER and PARTITION BY, DELETE RowNumber > 1, use subquery or CTE
+05) Find employees hired in last n months
+	Use the DATEDIFF with MONTH filter
+06) Transform rows into columns
+	Use the PIVOT operator to very easily transform rows to columns				
+07) Query to retrieve rows that contain only numerical data
+	Use the ISNUMERIC() function
+08) Find department with highest number of employees
+	Use GROUP BY DepartmentName and ORDER BY COUNT(*) DESC, get TOP 1
