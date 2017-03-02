@@ -64,6 +64,13 @@
     <Content Include="Database\Question06\Queries.sql" />
     <Content Include="Database\Question07\Queries.sql" />
     <Content Include="Database\Question08\Queries.sql" />
+    <Content Include="Database\Question09\Queries.sql" />
+    <Content Include="Database\Question10\Queries.sql" />
+    <Content Include="Database\Question11\Queries.sql" />
+    <Content Include="Database\Question12\Queries.sql" />
+    <Content Include="Database\Question13\Queries.sql" />
+    <Content Include="Database\Question14\Queries.sql" />
+    <Content Include="Database\Question15\Queries.sql" />
     <Content Include="Database\Questions.txt" />
     <Content Include="Database\ReadMe.txt" />
     <Content Include="Miscellaneous\ReadMe.txt" />

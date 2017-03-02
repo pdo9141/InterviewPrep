@@ -21,3 +21,33 @@
 	Use the ISNUMERIC() function
 08) Find department with highest number of employees
 	Use GROUP BY DepartmentName and ORDER BY COUNT(*) DESC, get TOP 1
+09) Difference between inner join, left join, right join, and full join
+	INNER JOIN (same as JOIN) returns only the matching rows between the tables involved in the JOIN
+	LEFT JOIN (same as LEFT OUTER JOIN) returns all rows from left table including non-matching rows
+	RIGHT JOIN (same as RIGHT OUTER JOIN) returns all the rows from the right table including the NON-MATCHING rows
+	FULL JOIN (same as FULL OUTER JOIN) returns all the rows from both the left and right tables including the NON-MATCHING rows
+10) Join 3 tables in SQL Server
+	Just use the common columns or foreign keys
+11) Real time example of right join
+	Retrieve all the Department Names and the total number of Employees with in each department irrespective of if the department has employees or not
+12) Can we join two tables without primary foregin key relation
+	Yes, as long as the two column value data types are convertable (int to decimal are ok, int to nvarchar is ok as well as long as text is numeric)
+13) Difference between blocking and deadlocking
+	Blocking: Occurs if a transaction tries to acquire an incompatible lock on a resource that another transaction has already locked. 
+	The blocked transaction remains blocked until the blocking transaction releases the lock.
+	Deadlock: Occurs when two or more transactions have a resource locked, and each transaction requests a lock on the resource that another transaction has already locked. 
+	Neither of the transactions here can move forward, as each one is waiting for the other to release the lock. So in this case, SQL Server intervenes 
+	and ends the deadlock by cancelling one of the transactions (deadlock victim), so the other transaction can move forward. 
+14) SQL query to retrieve all student names that start with a given letter without like operator
+	You can use the CHARINDEX, LEFT, SUBSTRING keywords
+15) SQL script to insert data into a table that has many-to-many relationship
+	a. There will be 2 inputs for the script 
+	   Student Name - The name of the student who wants to enrol into a course
+	   Course Name - The name of the course the student wants to enrol into
+	b. If the student is already in the Students table, then use that existing Student Id. If the student is not already in the Students table, 
+	   then a row for that student must be inserted into the Students table, and use that new student id.
+	c. Along the same lines, if the course is already in the Courses table, then use that existing Course Id. If the course is not already in the Courses table, 
+	   then a row for that course must be inserted into the Courses table, and use that new course id.
+	d. There should be no duplicate student course enrolments, i.e a given student must not be enrolled in the same course twice. For example, Tom must not be enrolled in C# course twice.
+	e. To avoid duplicate student course enrolments create a composite primary key on StudentId and CourseId columns in StudentCourses table. 
+	   With this composite primary key in place, if someone tries to enroll the same student in the same course again we get violation of primary key constraint error.
