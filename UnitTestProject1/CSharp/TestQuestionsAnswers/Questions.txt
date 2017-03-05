@@ -5,3 +5,10 @@
 	Or create two connection strings, populate two DataSets, merge the DataSets
 02) How do you display database metadata in ASP.NET
 	Use SQL Server INFORMATION_SCHEMA.TABLES (where TABLE_TYPE='BASE TABLE') and INFORMATION_SCHEMA.COLUMNS
+03) Binding a computed column to GridView
+	Create your own DataTable and fill it with values from SqlDataReader, the computed column will just be another column in your DataTable
+04) Subtract the largest even number and smalled odd number in the given array elements
+	You can use LINQ MAX and MIN methods or write foreach loop and just keep track for even/odd and max/min
+05) Program to check if the user input is a string or an integer
+	Use the int.TryParse method
+06) Export data from SQL Server tables to CSV file using ASP.NET and C#

@@ -215,6 +215,10 @@
     <Content Include="Site.Master" />
     <Content Include="TestQuestionsAnswers\Question01.aspx" />
     <Content Include="TestQuestionsAnswers\Question02.aspx" />
+    <Content Include="TestQuestionsAnswers\Question03.aspx" />
+    <Content Include="TestQuestionsAnswers\Question04.aspx" />
+    <Content Include="TestQuestionsAnswers\Question05.aspx" />
+    <Content Include="TestQuestionsAnswers\Question06.aspx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -393,6 +397,34 @@
     </Compile>
     <Compile Include="TestQuestionsAnswers\Question02.aspx.designer.cs">
       <DependentUpon>Question02.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TestQuestionsAnswers\Question03.aspx.cs">
+      <DependentUpon>Question03.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestQuestionsAnswers\Question03.aspx.designer.cs">
+      <DependentUpon>Question03.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TestQuestionsAnswers\Question04.aspx.cs">
+      <DependentUpon>Question04.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestQuestionsAnswers\Question04.aspx.designer.cs">
+      <DependentUpon>Question04.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TestQuestionsAnswers\Question05.aspx.cs">
+      <DependentUpon>Question05.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestQuestionsAnswers\Question05.aspx.designer.cs">
+      <DependentUpon>Question05.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="TestQuestionsAnswers\Question06.aspx.cs">
+      <DependentUpon>Question06.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="TestQuestionsAnswers\Question06.aspx.designer.cs">
+      <DependentUpon>Question06.aspx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
