@@ -1,0 +1,7 @@
+﻿https://www.youtube.com/watch?v=dKrHctltjec&index=1&list=PL6n9fhu94yhUg6zv5KAOMK14fMa5b_J2y
+
+01) How do you retrieve data from different databases in ASP.NET
+	You can join the tables in a stored proc using [DBName].[DBOwner].[TableName]
+	Or create two connection strings, populate two DataSets, merge the DataSets
+02) How do you display database metadata in ASP.NET
+	Use SQL Server INFORMATION_SCHEMA.TABLES (where TABLE_TYPE='BASE TABLE') and INFORMATION_SCHEMA.COLUMNS

@@ -54,8 +54,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ADO.NET\ReadMe.txt" />
     <Content Include="CSharp\Questions.txt" />
     <Content Include="CSharp\ReadMe.txt" />
+    <Content Include="CSharp\TestQuestionsAnswers\Question01\Queries.sql" />
+    <Content Include="CSharp\TestQuestionsAnswers\Question02\Queries.sql" />
+    <Content Include="CSharp\TestQuestionsAnswers\Questions.txt" />
     <Content Include="Database\Question01\Queries.sql" />
     <Content Include="Database\Question02\Queries.sql" />
     <Content Include="Database\Question03\Queries.sql" />
