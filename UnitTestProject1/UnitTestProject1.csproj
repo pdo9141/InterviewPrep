@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="ADO.NET\ReadMe.txt" />
+    <Content Include="ASP.NET MVC\ReadMe.txt" />
     <Content Include="CSharp\Questions.txt" />
     <Content Include="CSharp\ReadMe.txt" />
     <Content Include="CSharp\TestQuestionsAnswers\Question01\Queries.sql" />
@@ -79,6 +80,7 @@
     <Content Include="Database\Question15\Queries.sql" />
     <Content Include="Database\Questions.txt" />
     <Content Include="Database\ReadMe.txt" />
+    <Content Include="Entity Framework\ReadMe.txt" />
     <Content Include="Miscellaneous\ReadMe.txt" />
     <Content Include="Web\Javascript\ReadMe.txt" />
     <Content Include="Web\ReadMe.txt" />

@@ -4,8 +4,12 @@
 	Unique creates a non-clustered index by default, primary key creates a clustered index
 	Both unique and primary keys can be foreign keys
 02) What is the difference between clustered and non-clustered index?
-	a) Clustered:
-	b) Non-clustered: 
+	a) Clustered: think of clustered like phonebook directory where pointer and data on the same pages, clustered index resorts inserted records					
+	b) Non-clustered: think of non-clustered like a book index where the index points to the data, indexed columns ordered but rest of the data needs pointer to fetch it
+	1) Only 1 clustered index per table, where as you can have more than one non-clustered index
+	2) Clustered index is faster than a non-clustered index because the non-clustered has to refer back to the table if the selected column is not present in the index
+	3) Clutered index determines the storage order of the rows in the table, and hence doesn't require additional disk space, but where as a non-clustered index
+	is stored separately from the table, additional storage space is required.
 03) What are your index creation guidelines?
 04) What is the difference between inner, left join, right join, left outer join, right outer join, full outer join, cross join? 
 05) What is ACID?
