@@ -32,6 +32,12 @@
 	The moment we open the email, the image tries to load and issues a GET request, which would delete the data. Also, when search engines index your page, they issue a GET request which would delete the data. 
 	In general GET request should be free of any side-effects, meaning it should not change the state. Deletes should always be performed using a POST request in MVC and DELETE method in RESTFul WEB.API
 17) Use the @Html.BeginForm HTML helper while traversing your IEnumerable models to build form post for delete
-18) 
+18) If you want to change the @Html.DisplayNameFor name (name of object property, most likely DB column name in generated classes from EF) for auto generated EF classes, create another partial class
+	and use the [MetadataType(typeof(DepartmentMetaData))] in the System.ComponentModel.DataAnnotations namespace. In your DepartmentMetaData class, you can specify other annotations such as required as well.
+	Use the [Display(Name = "Department")] to change the error messaging and column names
+19) You can dynamcially add model validation error by using ModelState.AddModelError("Name", "The Name field is required.")
+20) Consider using custom ViewModels (DTOs essentially) for views not explicitly binded to a real model
+21) You can mix Razor and ASPX view engine pages in the same application if you want to but this is bad practice of course. Use the View(string viewName, object model) overload in controller to use ASPX view
+22) There's really not much of a difference between Razor and ASPX view engine code, just syntax really. Spark, NHaml, SharpDOM, and Brail (Nuget packages) are some third party MVC view engines.
 
-continue on part 26
+continue on part 32
