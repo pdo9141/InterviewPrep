@@ -24,5 +24,14 @@
 14) Use the @Html.DisplayFor helper for readonly fields. If the field is annotated with required you will need to use the @Html.HiddenFor helper to post value across to circumvent validation error. This will not be enough
 	though, you can easily hack this with Fiddler by dragging the valid POST request into Composer and modifying the readonly field in the request body. Use the overloads (include or exclude) for UpdateModel and TryUpdateModel to pass in the
 	model names you want to explicitly bind. You can also use the bind attribute on the model parameter to do this as well.
-	
-continue on part 21		
+15) You can also use the Bind attribute on the argument object, bind can take both include and exclude list. Ensure that you go and retrieve the original object and set the object fields you didn't pull in.
+	Note that when you call ModelState.IsValid that it'll not pass even after you set a required field using the original model's data. Probably better to use a custom ViewModel though.
+	Some folks prefer to just pass the ID as action argument, retrieve model from ID, take all the fields they want to auto-bind into an interface and then call UpdateModel<IEmployee>(employee), 
+	this preserves the Name field from retrieval and only binds interface fields, if Name is pass in form it will not matter
+16) Using GET method to delete records is bad because it opens a security hole and is not recommended by Microsoft. Just imagine what can happen if there is an image tag in a malicious email as shown below. 
+	The moment we open the email, the image tries to load and issues a GET request, which would delete the data. Also, when search engines index your page, they issue a GET request which would delete the data. 
+	In general GET request should be free of any side-effects, meaning it should not change the state. Deletes should always be performed using a POST request in MVC and DELETE method in RESTFul WEB.API
+17) Use the @Html.BeginForm HTML helper while traversing your IEnumerable models to build form post for delete
+18) 
+
+continue on part 26
