@@ -39,5 +39,13 @@
 20) Consider using custom ViewModels (DTOs essentially) for views not explicitly binded to a real model
 21) You can mix Razor and ASPX view engine pages in the same application if you want to but this is bad practice of course. Use the View(string viewName, object model) overload in controller to use ASPX view
 22) There's really not much of a difference between Razor and ASPX view engine code, just syntax really. Spark, NHaml, SharpDOM, and Brail (Nuget packages) are some third party MVC view engines.
+23) In the HTML helpers, if you try to add attributes such as HTML class to your form element and the keyword is C# reserved such has class, use the @ symbol to circumvent it, new @Html.TextBox("firstname", "John", new { title = "First Name Field", @class = "employeeFirstName", @readonly = "true" })
+	HTML helpers include @Html.TextBox, @Html.Label, @Html.Password, @Html.TextArea, @Html.Hidden
+24) To load dropdowns with DB data store your data in ViewBag and SelectList, for example, ViewBag.Departments = new SelectList(dbContext.Departments, "Id", "Name"), in view you'll code @Html.DropDownList("Departments", "-- Select Department --") 
+	To set selected item add DB column IsSelected BIT, load EF departments, traverse departments and build SelectListItem setting Selected property from IsSelected DB column  
+25) The difference between @Html.TextBox (used with hardcode and ViewBag values) and @Html.TextBoxFor (strongly typed to model)? Html.TextBox amd Html.DropDownList are not strongly typed and hence they doesn't require a strongly typed view. This means that we can hardcode whatever name we want. On the other hand, 
+	Html.TextBoxFor and Html.DropDownListFor are strongly typed and requires a strongly typed view, and the name is inferred from the lambda expression. Strongly typed HTML helpers also provide compile time checking. Since, in real time, we mostly use strongly typed views, 
+	prefer to use Html.TextBoxFor and Html.DropDownListFor over their counterparts. Whether, we use Html.TextBox & Html.DropDownList OR Html.TextBoxFor & Html.DropDownListFor, the end result is the same, that is they produce the same HTML.
+26) To create radio buttons for the departments, use @using (Html.BeginForm()), then traverse each department in Model.Departments and build radio using @Html.RadioButtonFor helper
 
-continue on part 32
+continue on part 38
