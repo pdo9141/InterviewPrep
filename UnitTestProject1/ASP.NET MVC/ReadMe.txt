@@ -47,5 +47,10 @@
 	Html.TextBoxFor and Html.DropDownListFor are strongly typed and requires a strongly typed view, and the name is inferred from the lambda expression. Strongly typed HTML helpers also provide compile time checking. Since, in real time, we mostly use strongly typed views, 
 	prefer to use Html.TextBoxFor and Html.DropDownListFor over their counterparts. Whether, we use Html.TextBox & Html.DropDownList OR Html.TextBoxFor & Html.DropDownListFor, the end result is the same, that is they produce the same HTML.
 26) To create radio buttons for the departments, use @using (Html.BeginForm()), then traverse each department in Model.Departments and build radio using @Html.RadioButtonFor helper
+27) When working with checkboxes, you can create views and stuff them into an EditorTemplates directory, name the view files (cshtml) the same as your model (e.g., City.cshtml). In your editor view, you can use the @Html.CheckboxFor and @Html.DisplayFor helpers.
+	In your index view, you can use the @Html.EditorForModel()
+28) When working with @Html.ListBoxFor(x => x.SelectedCities, Model.Cities) consider using a custom ViewModel with two fields, IEnumerable<SelectListItem> for Cities display and IEnumerable<string> for SelectedCities 
+29) DisplayAttribute, Display, and DisplayName are accomplish the same thing. You can use the DisplayFormat attribute to format dates, you can also use the NullDisplayText property of DisplayFormat to display custom text for null values
+	You can use the ScaffoldColumn(false) attribute to hide a column but this will only work when you use the @Html.DisplayForModel() helper, you usually don't want to use this helper because you want more control over HTML display
 
-continue on part 38
+continue on part 41
