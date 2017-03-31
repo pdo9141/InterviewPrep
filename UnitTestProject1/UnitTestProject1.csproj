@@ -69,6 +69,7 @@
     <Content Include="Database\Question04\Queries.sql" />
     <Content Include="Database\Question05\Queries.sql" />
     <Content Include="Database\Question06\Queries.sql" />
+    <Content Include="Database\Question06\Queries1.sql" />
     <Content Include="Database\Question07\Queries.sql" />
     <Content Include="Database\Question08\Queries.sql" />
     <Content Include="Database\Question09\Queries.sql" />
