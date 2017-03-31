@@ -51,6 +51,12 @@
 	In your index view, you can use the @Html.EditorForModel()
 28) When working with @Html.ListBoxFor(x => x.SelectedCities, Model.Cities) consider using a custom ViewModel with two fields, IEnumerable<SelectListItem> for Cities display and IEnumerable<string> for SelectedCities 
 29) DisplayAttribute, Display, and DisplayName are accomplish the same thing. You can use the DisplayFormat attribute to format dates, you can also use the NullDisplayText property of DisplayFormat to display custom text for null values
-	You can use the ScaffoldColumn(false) attribute to hide a column but this will only work when you use the @Html.DisplayForModel() helper, you usually don't want to use this helper because you want more control over HTML display
+	You can use the ScaffoldColumn(false) attribute to hide a column but this will only work when you use the @Html.DisplayForModel() helper, you usually don't want to use this helper because you want more control over HTML display.
+	You an use the DisplayColumn("") with @Html.DisplayTextFor to display one field for a complex type, used with single entity and entity with object graphs
+	You can use the DataType(DataType.EmailAddress, DataType.Currency (specify culture in web.config), DataType.Url, DataType.Email, DataType.Date, DateType.Time) for more formatted display
+	When using DataType.Url, if you want the href to include target="blank" create a DisplayTemplates folder, and add Url.cshtml. If you only want it on certain URL fields to open in new window create a new view, e.g., OpenInNewWindow.cshtml and use the UIHint("OpenInNewWindow") attribute
+	HiddenInput and ReadOnly attributes are also useful
+	Use the templated helpers @Html.Display (view not strongly typed, ViewData), @Html.DisplayFor (use with strongly type models that return object graphs), @Html.DisplayForModel to help with display, walks the metadata for your object
+	Use the templated helpers @Html.Editor (view not strongly typed, ViewData), @Html.EditorFor (use with strongly type models that return object graphs), @Html.EditorForModel to help with display, walks the metadata for your object
 
-continue on part 41
+continue on part 45
