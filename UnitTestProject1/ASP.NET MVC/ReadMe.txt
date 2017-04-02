@@ -76,5 +76,7 @@
 37) What's the difference between Html.RenderPartial and Html.Partial? The main difference is that "RenderPartial()" returns void and the output will be written directly to the output stream, whereas the "Partial()" method returns MvcHtmlString, 
 	which can be assigned to a variable and manipulated if required. So, when there is a need to assign the output to a variable for manipulating it, then use Partial(), else use RenderPartial(). From a performance perspective, 
 	rendering directly to the output stream is better. RenderPartial() does exactly the same thing and is better for performance over Partial().
+38) What are T4 templates? T4 stands for Text Template Transformation Toolkit and are used by visual studio to generate code when you add a view or a controller. When you add a view, the scaffold options (Create, Delete, Edit, List) are the T4 templates.
+	You can add your own by going into C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ItemTemplates\[CSharp | FSharp | VisualBasic]\Web\[MVC 2 | MVC 3 | MVC 4]\CodeTemplates
 
-continue on part 54
+continue on part 55
