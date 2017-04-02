@@ -58,5 +58,23 @@
 	HiddenInput and ReadOnly attributes are also useful
 	Use the templated helpers @Html.Display (view not strongly typed, ViewData), @Html.DisplayFor (use with strongly type models that return object graphs), @Html.DisplayForModel to help with display, walks the metadata for your object
 	Use the templated helpers @Html.Editor (view not strongly typed, ViewData), @Html.EditorFor (use with strongly type models that return object graphs), @Html.EditorForModel to help with display, walks the metadata for your object
+30) Create DisplayTemplates or EditorTemplates in shared or dedicated folders to customize display of @Html.DisplayForModel and @Html.EditorForModel helpers. You can for example, attach a JQuery calendar picker to DateTime? fields by creating DateTime.cshtml in these folders
+	For DateTime values, you can read metadata format of value in model by leveraging DisplayFormat(DataFormatString) attribute with ApplyFormatInEditMode=true, in .cshtml file, use @ViewData.TemplateInfo.FormattedModelValue
+31) To view metadata of the model in your custom template helper .cshtml files, leverage @ViewData.ModelMetadata
+32) To display images in MVC, leverage the Url.Content helper, <img src="@Url.Content(@Model.Photo)" alt="@Model.AlternateText" />, alternatively, you can create your own custom image helper by creating an extension method to HtmlHelper class
+		1. Create a static method in a static class
+		2. The first parameter has to be the type to which we are adding the extension method
+		3. Return type should be IHtmlString, as these strings are excluded from html encoding
+		4. To help, creation of HTML tags, use TagBuilder class
+		5. Include the namespace of the helper method in either the view or web.config
+33) All MVC output is HTML encoded by default, this is to avoid cross site scripting attacks. To avoid HTML encoding in Razor, you can return IHTML strings or use the HTML.Raw() helper
+34) You can enable compile time error checking in views by editing the .csproj file and setting the MvcBuildViews node value to true
+35) What is the advantage of using strongly typed models? You get intellisense and compile time error checking (you get red underline squigglies and if you've edit .csproj MvcBuildViews you'll get build error)
+36) Partial views are similar to user controls in web forms. You use the @Html.Partial("_Employee", yourModelInstance) helper in your views to use the partial component. Partial views can be located in shared or specific views folder. 
+	Name the partials with underscore, create as partial view in window prompt. Note, remember to use @Model in your partial view code to refer to yourModelInstance you passed into the @Html.Partial helper in your view.
+	You can also use { Html.RenderPartial("_Employee", yourModelInstance); } instead of @Html.Partial("_Employee", yourModelInstance) instead, Html.RenderPartial is better for performance.
+37) What's the difference between Html.RenderPartial and Html.Partial? The main difference is that "RenderPartial()" returns void and the output will be written directly to the output stream, whereas the "Partial()" method returns MvcHtmlString, 
+	which can be assigned to a variable and manipulated if required. So, when there is a need to assign the output to a variable for manipulating it, then use Partial(), else use RenderPartial(). From a performance perspective, 
+	rendering directly to the output stream is better. RenderPartial() does exactly the same thing and is better for performance over Partial().
 
-continue on part 45
+continue on part 54
