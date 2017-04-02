@@ -62,11 +62,11 @@
 	For DateTime values, you can read metadata format of value in model by leveraging DisplayFormat(DataFormatString) attribute with ApplyFormatInEditMode=true, in .cshtml file, use @ViewData.TemplateInfo.FormattedModelValue
 31) To view metadata of the model in your custom template helper .cshtml files, leverage @ViewData.ModelMetadata
 32) To display images in MVC, leverage the Url.Content helper, <img src="@Url.Content(@Model.Photo)" alt="@Model.AlternateText" />, alternatively, you can create your own custom image helper by creating an extension method to HtmlHelper class
-		1. Create a static method in a static class
-		2. The first parameter has to be the type to which we are adding the extension method
-		3. Return type should be IHtmlString, as these strings are excluded from html encoding
-		4. To help, creation of HTML tags, use TagBuilder class
-		5. Include the namespace of the helper method in either the view or web.config
+	1. Create a static method in a static class
+	2. The first parameter has to be the type to which we are adding the extension method
+	3. Return type should be IHtmlString, as these strings are excluded from html encoding
+	4. To help, creation of HTML tags, use TagBuilder class
+	5. Include the namespace of the helper method in either the view or web.config
 33) All MVC output is HTML encoded by default, this is to avoid cross site scripting attacks. To avoid HTML encoding in Razor, you can return IHTML strings or use the HTML.Raw() helper
 34) You can enable compile time error checking in views by editing the .csproj file and setting the MvcBuildViews node value to true
 35) What is the advantage of using strongly typed models? You get intellisense and compile time error checking (you get red underline squigglies and if you've edit .csproj MvcBuildViews you'll get build error)
@@ -78,5 +78,18 @@
 	rendering directly to the output stream is better. RenderPartial() does exactly the same thing and is better for performance over Partial().
 38) What are T4 templates? T4 stands for Text Template Transformation Toolkit and are used by visual studio to generate code when you add a view or a controller. When you add a view, the scaffold options (Create, Delete, Edit, List) are the T4 templates.
 	You can add your own by going into C:\Program Files (x86)\Microsoft Visual Studio 10.0\Common7\IDE\ItemTemplates\[CSharp | FSharp | VisualBasic]\Web\[MVC 2 | MVC 3 | MVC 4]\CodeTemplates
+39) How do you allow HTML to be posted into MVC action method? This will circumvent built in XSS (cross site scripting) protection. Use the [ValidateInput(false)] attribute
+40) How do you prevent XSS attacks but still allow your whitelist?
+	1. Disable input validation (ValidateInput attribute)
+	2. Encodes all the input that is coming from the user (You want to use StringBuilder here for performance reasons)
+	3. Finally we selectively replace, the encoded html with the HTML elements that we want to allow. (use Replace method on StringBuilder for your whitelist tags, <b>, <u>, etc.)
+41) Use the @ symbol to switch between c# and HTML (sometimes you have to use paranthesis with @ symbol to clearly demarcate your C# code). What if you what the @ literal to display (no need in email addresses, MVC smart enough to know)? You can use @@ or try <text> or @: 
+42) Use @{} to define C# code block.
+43) For comments, use @* this is a comment *@
+44) How do you centralize specification of layout for all views? Use the _ViewStart.cshtml file. You can place in shared or view specific folder.
+	You can write some logic in _ViewStart.cshtml to dynamically specify which layout to use (e.g., Request.Browser.IsBrowser("Chrome") ? "_ChromeLayout" : "_OtherLayout")
+	You can also specify layout file in a controller action method (return View("Create", "_Layout")) or in an action filter.
+	Modify your action method to return PartialView("_Employee", employee) which returns PartialViewResult in action method signature to avoid using layout specified in _ViewStart.cshtml
 
-continue on part 55
+
+continue on part 61
