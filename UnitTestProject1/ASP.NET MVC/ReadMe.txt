@@ -90,6 +90,10 @@
 	You can write some logic in _ViewStart.cshtml to dynamically specify which layout to use (e.g., Request.Browser.IsBrowser("Chrome") ? "_ChromeLayout" : "_OtherLayout")
 	You can also specify layout file in a controller action method (return View("Create", "_Layout")) or in an action filter.
 	Modify your action method to return PartialView("_Employee", employee) which returns PartialViewResult in action method signature to avoid using layout specified in _ViewStart.cshtml
+45) What are named sections? In your layout page, you can use the @RenderSection("LeftSideBar", false) helper to define a named section. In your views, you can optionally (since you passed false as second parameter). Use @section LeftSideBar {} in your views
+	Use the @if(@IsSectionDefined("LeftSideBar")) helper method to render default if you want to 
+46) How do you implement paging in MVC? Use the Nuget package PagedList.Mvc which will also install PagedList. In action method, instead of returning list, return ToPagedList(page, pageSize). You'll have to add int? page argument to your method signature.
+	In your view, reference the PagedList and PageList.Mvc namespaces, change IEnumerable<Employee> to IPagedList<Employee>, where you reference your employee model, instead of model.Name or model.Gender you'll need to change to model.First().Name etc.
+	Use the @Html.PageListPager helper to display page numbers for paging, use PageListRenderOptions object to specify settings like to hide paging module if there is only one page
 
-
-continue on part 61
+continue on part 64
