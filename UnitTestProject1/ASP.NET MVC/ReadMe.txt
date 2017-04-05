@@ -95,5 +95,9 @@
 46) How do you implement paging in MVC? Use the Nuget package PagedList.Mvc which will also install PagedList. In action method, instead of returning list, return ToPagedList(page, pageSize). You'll have to add int? page argument to your method signature.
 	In your view, reference the PagedList and PageList.Mvc namespaces, change IEnumerable<Employee> to IPagedList<Employee>, where you reference your employee model, instead of model.Name or model.Gender you'll need to change to model.First().Name etc.
 	Use the @Html.PageListPager helper to display page numbers for paging, use PageListRenderOptions object to specify settings like to hide paging module if there is only one page
+47) How do you implement bi-directional sorting in MVC? You can build the hyperlink in the header and leverage the ViewBag to switch asc/desc and pass sortBy querystring to action method. 
+	When you query EF, use the AsQueryable method (db.Employees.AsQueryable()) to delay SQL execution until you build the sorting. You can add the where and orderby clauses dynamically
+48) 
 
-continue on part 64
+
+continue on part 65
