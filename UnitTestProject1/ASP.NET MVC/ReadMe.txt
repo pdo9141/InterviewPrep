@@ -105,6 +105,10 @@
 			.ForEach(db.Employees.DeleteObject);
 		db.SaveChanges();
 	}
-49) 
+49) Decorate the action method with [ActionName("YourName")] to access the action method by another name. One you decorate an action method with an ActionName attribute, you can't use the method name anymore. Your views will now have to be named by attribute name
+	[HttpPost] = [AcceptVerbs(HttpVerbs.Post)] , [HttpGet] = [AcceptVerbs(HttpVerbs.Get)]
+50) What's the use of NonAction attribute? Makes your public action method private, alternatively you can just mark as private. 
+51) What are action filters? They're attributes that can be applied either on a controller action method, controller, or global level. Some examples are Authorize, AllowAnonymous, ChildActionOnly, HandleError, OutputCache, RequireHttps, ValidateInput, ValidateAntiForgeryToken. 
+	You can also create your own action filters. Custom permissions attribute perhaps?
 
-continue on part 67
+continue on part 70
