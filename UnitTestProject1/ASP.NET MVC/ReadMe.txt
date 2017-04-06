@@ -97,7 +97,14 @@
 	Use the @Html.PageListPager helper to display page numbers for paging, use PageListRenderOptions object to specify settings like to hide paging module if there is only one page
 47) How do you implement bi-directional sorting in MVC? You can build the hyperlink in the header and leverage the ViewBag to switch asc/desc and pass sortBy querystring to action method. 
 	When you query EF, use the AsQueryable method (db.Employees.AsQueryable()) to delay SQL execution until you build the sorting. You can add the where and orderby clauses dynamically
-48) 
+48) How do you delete multiple rows in MVC (and EF)? 
+	<input type="checkbox" name="employeeIdsToDelete" id="employeeIdsToDelete" value="@Model.ID" />
+	public ActionResult Delete(IEnumerable<int> employeeIdsToDelete)
+	{
+		db.Employees.Where(x => employeeIdsToDelete.Contains(x.ID)).ToList()
+			.ForEach(db.Employees.DeleteObject);
+		db.SaveChanges();
+	}
+49) 
 
-
-continue on part 65
+continue on part 67
