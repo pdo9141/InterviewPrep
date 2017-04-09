@@ -137,5 +137,20 @@
 	Each Area created will contain a xxxxAreaRegistration.cs file which specifies the area name and handles area routing.
 	If you have multiple HomeControllers, your default and your Areas. You'll need to update the default routing to specify the namespace so when user navigates to http://localhost/YourApp, it's not confused and can find the default HomeController by namespace
 	When working with Areas and @Html.ActionLink, ensure you use overload where you can pass area name as anonymous type
+61) Use [StringLength(10, MinimumLength=5)] attribute to control maximum and mininum length at entity level for validation.
+	Enforce range values by using [Range(1, 100)] attribute. You can use this for int, datetime, etc. [Range(typeof(DateTime), "01/01/2000", '01/01/2010')]
+	Use [RegularExpression(@"^(([A-za-z]+[\s]{1}))")] attribute for pattern matching. Enforce zip code, email address, real person name, numbers only, alphanumeric, etc. A good RegEx resource is http://gskinner.com/RegExr/
+	Use [Compare("Email")] attribute for confirm scenarios like password and confirm password or email and confirm email
+62) How do you create custom validation attributes? For example, you want to use the Range attribute but for the maximum date you want it to be the current date. You can't just pass DateTime.Now into maximum argument, that won't work. You'll have to create a new DateRangeAttribute : RangeAttribute 
+	You can also create a custom validation attribute to check if date entered is <= today's date. You'll have to create a new CurrentDateAttribute : ValidationAttribute, override the IsValid method
+63) To enable client validation and unobstrusive JS, modify the web.config file and set ClientValidationEnabled and UnobstrusiveJavascriptEnabled to true.
+64) Use the ValidationSummary helper to show all error messages in one spot. In scaffoled Site.css file, modify the field-validation-error, input.input-validation-error, and validation-summary-errors CSS attributes to update color, borders, etc.
+	To display the "*" next to the fields, use another overload for @Html.ValidationMessageFor(model => model.Name, "*")
+65) What is remote validation? One scenario is when you need to validate that a username does not already exists in the DB so that you can create it. Create an action method that returns JsonResult (true or false), 
+	decorate the username field with [Remote("IsUserNameAvailable", "Home", ErrorMessage="UserName already in use")]. What if JS is disabled? You could write code in the action method to check if user exists in the controller but you would
+	be violating seperation of concerns, ideally all validation should be specified in the model with attributes. In this scenario, you want to create a custom attribute RemoteClientServerAttribute : RemoteAttribute, override IsValid method.
+	You'll have to utilize a lot of reflection here, Assembly.GetExecutingAssembly().GetTypes(), controller.GetMethods(), this.RouteData to get controller and method names, Activator.CreateInstance, action.Invoke
 
-continue on part 80
+
+
+continue on part 92
