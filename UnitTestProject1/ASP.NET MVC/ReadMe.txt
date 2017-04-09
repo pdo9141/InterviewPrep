@@ -110,5 +110,32 @@
 50) What's the use of NonAction attribute? Makes your public action method private, alternatively you can just mark as private. 
 51) What are action filters? They're attributes that can be applied either on a controller action method, controller, or global level. Some examples are Authorize, AllowAnonymous, ChildActionOnly, HandleError, OutputCache, RequireHttps, ValidateInput, ValidateAntiForgeryToken. 
 	You can also create your own action filters. Custom permissions attribute perhaps?
+52) What is the ChildActionOnly attribute? You can use the @Html.Action helper to call another action method that returns a view (sub view in this case). Mark the sub view's action method with ChildActionOnly so that it can't be invoked at the top level (no longer public).
+	You can also use the @Html.RenderAction (remember to use different syntax @{ Html.RenderAction }) method instead of the @Html.Action method. RenderAction is better for performance since it's written directly to the output stream.
+	Using child action methods, it is possible to cache portions of a view. This is the main advantage of child action methods.
+53) What is HandleError attribute? It is used to display friendly error pages when there is an unhandled exception. Turn on CustomErrors in web.config, add Error.cshtml view to the Shared folder. 
+	In Application_Start(), add FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters) and in Global.asax, add filters.Add(new HandleErrorAttribute())
+	To handle 404s, modify the <customErrors> node and add configuration to point to new error controller and view for 404, <error statusCode="404" redirect="~/Error/NotFound" />
+54) You can decorate action methods with [OutputCache(Duration=10)] for caching, 10 = seconds in duration. Better practice to cache portions of a view, the child views having actions marked with ChildActionOnly
+55) What are CacheProfiles? When you decorate OutputCache in code, the disadvantages are 1: If you have to apply the same cache settings, to several methods, then the code needs to be duplicated.
+	and 2: Later, if we have to change these cache settings, then we need to change them at several places. Maintaining the code becomes complicated. Also, changing the application code requires build and re-deployment.
+	To overcome these disadvantages, cache settings can be specified in web.config file using cache profiles. In <system.web>, add <caching><outputCacheSettings><outputCacheProfiles><add name="myCacheProfileName" duration="60" varyByParam="none" />, on action use [OutputCache(CacheProfile = "myCacheProfileName")]	
+	To make CacheProfiles work with ChildActionOnly methods, create a custom OutputCache attribute which inherits from OutputCacheAttribute, this code should read from web.config and set configured values.
+56) The [RequreHttps] attribute forces an unsecured HTTP request to be re-sent over HTTPS
+57) The [ValidateInput] attribute is used to enable/disable request validation. By default, request validation is enabled in MVC and does not allow you to submit any HTML to prevent XSS.
+58) Action filters allow you to add code for pre and post processing logic to action methods. There are 4 types of filters in MVC: 
+		1. Authorization filters - Implements IAuthorizationFilter. Examples include AuthorizeAttribute and RequireHttpsAttribute. These filters run before any other filter.
+		2. Action filters - Implement IActionFilter
+		3. Result filters - Implement IResultFilter. Examples include OutputCacheAttribute. 
+		4. Exception filters - Implement IExceptionFilter. Examples include HandleErrorAttribute.
+	You might want to create a custom action filter to pre process permissions for a particular action. 
+	You might create a custom action filter that could log controller name, name of action methid, execution time, and if there is an exception to a text file.
+59) What are the different types of ActionResult? A few examples are ViewResult, PartialViewResult, JsonResult, RedirectResult, JavaScriptResult, FileResult, ContentResult
+	What should be the return type of an action method - ActionResult or specific derived type? It's a good practise to return specific sub-types, but, if different paths of the action method returns different subtypes, then I would return an ActionResult object.
+60) What are Areas in MVC? The structure of a complex MVC application can be very easily maintained using areas. In short, areas allow us to breakdown a large complex application into a several small sections called areas. 
+	These areas can have their own set of Models, Views, Controllers, and Routes.
+	Each Area created will contain a xxxxAreaRegistration.cs file which specifies the area name and handles area routing.
+	If you have multiple HomeControllers, your default and your Areas. You'll need to update the default routing to specify the namespace so when user navigates to http://localhost/YourApp, it's not confused and can find the default HomeController by namespace
+	When working with Areas and @Html.ActionLink, ensure you use overload where you can pass area name as anonymous type
 
-continue on part 70
+continue on part 80
