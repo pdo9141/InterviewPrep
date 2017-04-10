@@ -150,7 +150,67 @@
 	decorate the username field with [Remote("IsUserNameAvailable", "Home", ErrorMessage="UserName already in use")]. What if JS is disabled? You could write code in the action method to check if user exists in the controller but you would
 	be violating seperation of concerns, ideally all validation should be specified in the model with attributes. In this scenario, you want to create a custom attribute RemoteClientServerAttribute : RemoteAttribute, override IsValid method.
 	You'll have to utilize a lot of reflection here, Assembly.GetExecutingAssembly().GetTypes(), controller.GetMethods(), this.RouteData to get controller and method names, Activator.CreateInstance, action.Invoke
+66) What is AJAX and why should we use it? AJAX stands for Asynchronous JavaScript And XML and enable web applications to retrieve data from the server asynchronously. Web application using AJAX enables partial page updates, 
+	ie. only the related section of the page is updated, without reloading the entire page.
+	Advantages of AJAX
+		1. AJAX applications are non blocking. As AJAX requests are asynchronous, the user doesn't have to wait for the request processing to complete. Even while the request is still being processed by the server, 
+		the application remains responsive and the user can interact with the application. When the request processing is complete, the user interface is automatically updated. This is not the case with, synchronous requests. 
+		The user interface is blocked and the user cannot do anything else until the request has completed processing.
+		2. Better performance and reduced network traffic. AJAX enables an application to send and receive only the data that is required. As a result, there is reduced traffic between the client and the server and better peofrmance.
+		3. No screen flicker. An AJAX response consists of only the data that is relevant to the request. As a result, only a portion of the page is updated avoiding full page refresh and screen flickers.
+	Disadvantages of AJAX:
+		1. AJAX requests cannot be bookmarked easily
+		2. AJAX relies on JavaScript. If JavaScript is disabled, AJAX application won't work.
+		3. Harder to debug
+		4. Search Engine like Google, Bing, Yahoo etc cannot index AJAX pages.
+67) How do you use AJAX with MVC? Create strongly typed partial view for the AJAX section you want to display/updated. Create action methods for your AJAX calls that will return PartialView("_Student, model"), PartialViewResult, e.g, All, Top3, Bottom3.
+	In your view, use the @Ajax.ActionLink helper to build your links, note you'll need to reference jquery and jquery.unobstrusive-ajax as well.
+	@Ajax.ActionLink("All", "All", 
+		new AjaxOptions 
+		{
+			HttpMethod = "GET", // HttpMethod to use, GET or POST
+			UpdateTargetId = "divStudents", // ID of the HTML element to update
+			InsertionMode = InsertionMode.Replace // Replace the existing contents
+		})
+68) For partial page postbacks, it's good practice to provide visual feedback using LoadingElementId AjaxOption so that the user knows that the request is being processed (loading indicator, http://spiffygif.com).
+	new AjaxOptions 
+	{
+		HttpMethod = "GET", 
+		UpdateTargetId = "divStudents", 
+		InsertionMode = InsertionMode.Replace,
+		LoadingElementId = "divLoading"
+	}
+69) Using the following 4 properties of the AjaxOptions class, we can associate JavaScript functions that get called on the client at different stages of an AJAX request/response cycle. In our All, Top 3, and Bottom 3 example, say after we click
+	one of the options, we want to clear the div content and load spinner before the new results are returned. You can write a JS function (clearResults) to clear the contents "divStudents". You can now hook in the OnBegin property.
+	You can always hook into OnBegin to run any business logic (in your JS, JS could make service call) you want to process the AJAX call or not.
+	new AjaxOptions 
+	{
+		HttpMethod = "GET", 
+		UpdateTargetId = "divStudents", 
+		InsertionMode = InsertionMode.Replace,
+		LoadingElementId = "divLoading",
+		OnBegin = "clearResults"
+	}
+	1. OnBegin - The associated JavaScript function is called before the action method is invoked
+	2. OnComplete - The associated JavaScript function is invoked after the response data has been instantiated but before the page is updated.
+	3. OnSuccess - The associated JavaScript function is invoked after the page is updated.
+	4. OnFailure - The associated JavaScript function is invoked if the page update fails.
+70) LoadingElementDuration property is used to control the animation duration of LoadingElement. The value for LoadingElementDuration property must be specified in milliseconds. By default, the LoadingElement fades in and fades out.
+	Irrespective of whatever duration you set, the LoadingElement was fading in and out at the same speed. Check stackoverflow article which explained the fix for the issue.
+71) Benefits or advantages of using a CDN:
+	1. Caching benefits - If other web sites use jquery and if the user has already visited those websites first, jquery file is cached. If the user then visits your website, the cached jquery file is used without having the need to download it again.
+	2. Speed benefits - The jquery file from the nearest geographical server will be downloaded.
+	3. Reduces network traffic - As the jQuery file is loaded from a CDN, this reduces the network traffic to your web server.
+	4. Parallelism benefit - There is a limitation on how many components can be downloaded in parallel. This limitation is per hostname. For example, 
+	1. If the browser allows only 2 components to be downloaded in parallel per hostname and 
+	2. If a web page requires 4 components and 
+	3. If all of them are hosted on a single host and 
+	4. If 2 components take 1 second to download
+	Then to download all the 4 components, it is going to take 2 seconds. However, if 2 of the components are hosted on a different host(server), then all the 4 components can be downloaded in parallel and in 1 second.
+72) What if CDN is down? Use the code below for JQuery check, \x3C is hexadecimal for < 
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
+	<script type="text/javascript"> 
+		window.jQuery || document.write('<script src="/MVCDemo/Scripts/jquery-1.7.1.min.js">\x3C/script>')
+	</script>
 
 
-
-continue on part 92
