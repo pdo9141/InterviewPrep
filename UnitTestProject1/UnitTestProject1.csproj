@@ -66,6 +66,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Entity Framework\EFTests.cs" />
+    <Compile Include="Entity Framework\EmployeeDBContextSeeder.cs" />
     <Compile Include="Entity Framework\Models\Department.cs" />
     <Compile Include="Entity Framework\Models\Employee.cs" />
     <Compile Include="Entity Framework\Models\EmployeeDBContext.cs" />
@@ -102,6 +103,7 @@
     <Content Include="Database\Questions.txt" />
     <Content Include="Database\ReadMe.txt" />
     <Content Include="Entity Framework\Part1\Queries.sql" />
+    <Content Include="Entity Framework\Part7\Queries.sql" />
     <Content Include="Entity Framework\ReadMe.txt" />
     <Content Include="Miscellaneous\ReadMe.txt" />
     <Content Include="Web\Javascript\ReadMe.txt" />

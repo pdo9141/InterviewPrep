@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Data.Entity;
 
 namespace UnitTestProject1.Entity_Framework.Models
 {
@@ -11,5 +6,13 @@ namespace UnitTestProject1.Entity_Framework.Models
     {
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            // This line will tell entity framework to use stored procedures
+            // when inserting, updating and deleting Employees
+            modelBuilder.Entity<Employee>().MapToStoredProcedures();
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }

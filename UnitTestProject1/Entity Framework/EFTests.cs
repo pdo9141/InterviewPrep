@@ -3,6 +3,8 @@ using System.Linq;
 using System.Text;
 using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.Data.Entity;
+using UnitTestProject1.Entity_Framework.Models;
 
 namespace UnitTestProject1.Entity_Framework
 {
@@ -49,9 +51,13 @@ namespace UnitTestProject1.Entity_Framework
         // [ClassCleanup()]
         // public static void MyClassCleanup() { }
         //
-        // Use TestInitialize to run code before running each test 
-        // [TestInitialize()]
-        // public void MyTestInitialize() { }
+        //Use TestInitialize to run code before running each test
+        [TestInitialize()]
+        public void MyTestInitialize()
+        {
+            //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<EmployeeDBContext>());
+            Database.SetInitializer(new EmployeeDBContextSeeder());
+        }
         //
         // Use TestCleanup to run code after each test has run
         // [TestCleanup()]
@@ -84,8 +90,17 @@ namespace UnitTestProject1.Entity_Framework
         [TestMethod]
         public void EF_Part3_Test()
         {
+            /*
             var repo = new Models.EmployeeRepository();
             var departments = repo.GetDepartments();
+            */
+        }
+
+        [TestMethod]
+        public void EF_Part8_Test()
+        {
+            var repo = new Models.EmployeeRepository();
+            var employees = repo.GetEmployees();            
         }
     }
 }
