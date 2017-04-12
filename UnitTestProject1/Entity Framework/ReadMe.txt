@@ -23,5 +23,9 @@
 	To override SP parameter defaults, use modelBuilder.Entity<Employee>().MapToStoredProcedures(p => p.Insert(x => x.HasName("InsertEmployee")
 		.Parameter(n => n.Name, "EmployeeName")
 		.Parameter(n => n.Gender, "EmployeeGender")))
+09) With Schema First, lets say you have an Employee and EmployeeContactDetails tables but you want to make that into a single entity. This is referred to as entity splitting, to do this, 
+	go to the designer, cut and paste all properties from EmployeeContactDetails except for EmployeeID and paste into Employee. Right-click EmployeeContactDetails and 
+	choose Delete from Model, when prompted select No so that it doesn't delete the underlying EmployeeContactDetails DB table. Right-click on Employee and choose the Table Mapping option, 
+	click Add a Table or View and choose EmployeeContactDetails, this should auto map all your fields.
 
-continue on part 10
+continue on part 11

@@ -68,8 +68,25 @@
     <Compile Include="Entity Framework\EFTests.cs" />
     <Compile Include="Entity Framework\EmployeeDBContextSeeder.cs" />
     <Compile Include="Entity Framework\Models\Department.cs" />
-    <Compile Include="Entity Framework\Models\Employee.cs" />
+    <Compile Include="Entity Framework\Models\Employee.cs">
+      <DependentUpon>EmployeeModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Entity Framework\Models\EmployeeDBContext.cs" />
+    <Compile Include="Entity Framework\Models\EmployeeModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmployeeModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity Framework\Models\EmployeeModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmployeeModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Entity Framework\Models\EmployeeModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EmployeeModel.edmx</DependentUpon>
+    </Compile>
     <Compile Include="Entity Framework\Models\EmployeeRepository.cs" />
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -102,6 +119,17 @@
     <Content Include="Database\Question15\Queries.sql" />
     <Content Include="Database\Questions.txt" />
     <Content Include="Database\ReadMe.txt" />
+    <Content Include="Entity Framework\Models\EmployeeModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EmployeeModel.edmx</DependentUpon>
+      <LastGenOutput>EmployeeModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Entity Framework\Models\EmployeeModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EmployeeModel.edmx</DependentUpon>
+      <LastGenOutput>EmployeeModel.cs</LastGenOutput>
+    </Content>
+    <Content Include="Entity Framework\Part10\Queries.sql" />
     <Content Include="Entity Framework\Part1\Queries.sql" />
     <Content Include="Entity Framework\Part7\Queries.sql" />
     <Content Include="Entity Framework\ReadMe.txt" />
@@ -115,6 +143,13 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EntityDeploy Include="Entity Framework\Models\EmployeeModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EmployeeModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="Entity Framework\Models\EmployeeModel.edmx.diagram">
+      <DependentUpon>EmployeeModel.edmx</DependentUpon>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

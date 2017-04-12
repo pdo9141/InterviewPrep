@@ -56,7 +56,7 @@ namespace UnitTestProject1.Entity_Framework
         public void MyTestInitialize()
         {
             //Database.SetInitializer(new DropCreateDatabaseIfModelChanges<EmployeeDBContext>());
-            Database.SetInitializer(new EmployeeDBContextSeeder());
+            //Database.SetInitializer(new EmployeeDBContextSeeder());
         }
         //
         // Use TestCleanup to run code after each test has run
@@ -99,8 +99,19 @@ namespace UnitTestProject1.Entity_Framework
         [TestMethod]
         public void EF_Part8_Test()
         {
+            /*
             var repo = new Models.EmployeeRepository();
             var employees = repo.GetEmployees();            
+            */
+        }
+
+        [TestMethod]
+        public void EF_Part10_Test()
+        {
+            using (var db = new Models.EmployeeDBContext())
+            {
+                var employees = db.Employees.ToList();
+            }            
         }
     }
 }
