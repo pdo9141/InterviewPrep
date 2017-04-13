@@ -27,5 +27,65 @@
 	go to the designer, cut and paste all properties from EmployeeContactDetails except for EmployeeID and paste into Employee. Right-click EmployeeContactDetails and 
 	choose Delete from Model, when prompted select No so that it doesn't delete the underlying EmployeeContactDetails DB table. Right-click on Employee and choose the Table Mapping option, 
 	click Add a Table or View and choose EmployeeContactDetails, this should auto map all your fields.
+10) With Schema First, lets say you have one DB table Employees but you want to map it to two entites (Employee and EmployeeContactDetail), this is called Table Splitting. Why would you want
+	to do this? Table Splitting is useful when you want to delay the loading of some properties with large data when using lazy loading. For example, if you have Employee entity and if it contains 
+	Photo property that would return large binary data, and if we use this Photo property only on a few pages in our application, then it does not make sense from a performance perspective to load 
+	this property every time we load the Employee entity. Using lazy loading load it only on the pages where we need to display Employee photo. To achieve this, add your ADO Entity Data Model, the
+	designer view will add one Employee entity, right-click and Add Entity, name it EmployeeContactDetail, name the Key Property the same as Employee entity (EmployeeID). Cut and paste the desired
+	fields from Employee and paste into EmployeeContactDetail. Right-click on EmployeeContactDetail and Add Association, right-click in designer on the line that connects Employee and EmployeeContactDetail
+	 and select properties, here you need to specify Referential Constraint, the Principal will be Employee, Dependent is EmployeeContactDetail, Principal and Dependent Property is EmployeeID.
+	 Last thing you need to do is right-click on EmployeeContactDetail and select Table Mapping, click Add a Table or View to map entity to Employees DB table. Don't forget to explicitly include the
+	 contact details in your queries. List<Employee> employees = employeeDBContext.Employees.Include("EmployeeContactDetail").ToList();
+11) With Code First, if you want to entity split the Employee class into two tables (Employees and EmployeeContactDetails) you can override the DbContext method OnModelCreating. 
+	In this method, modelBuilder.Entity<Employee>()
+						// Specify properties to map to Employees table
+						.Map(map => {
+							map.Properties(p => new
+							{
+								p.EmployeeId,
+								p.FirstName,
+								p.LastName,
+								p.Gender
+							});
 
-continue on part 11
+							map.ToTable("Employees");
+						})
+						// Specify properties to map to EmployeeContactDetails table
+						.Map(map =>
+						{
+							map.Properties(p => new
+							{
+								p.EmployeeId,
+								p.Email,
+								p.Mobile,
+								p.Landline
+							});
+
+							map.ToTable("EmployeeContactDetails");
+						});
+12) With Code First, to handle Table splitting where you have two entities (Employee and EmployeeContactDetail) to one DB table (Employees), add your navigation fields, Employee should have EmployeeContactDetail and 
+	EmployeeContactDetail should have Employee. You now need to override the OnModelCreating method in DBContext class.
+		modelBuilder.Entity<Employee>()
+            .HasKey(pk => pk.EmployeeID)
+            .ToTable("Employees");
+
+        modelBuilder.Entity<EmployeeContactDetail>()
+            .HasKey(pk => pk.EmployeeID)
+            .ToTable("Employees");
+
+        modelBuilder.Entity<Employee>()
+            .HasRequired(p => p.EmployeeContactDetail)
+            .WithRequiredPrincipal(c => c.Employee);
+13) What is conditional mapping in EF? Imagine if the application that we are developing always need only the employees who are not terminated, then in the query we will have to always include the filter across our entire application. 
+	Conditional Mapping can be used to apply such a permanent filter on the entity, so that the generated SQL query always have the WHERE clause. To do this in Schema First:
+	1. Right click on the entity and select "Table Mapping" option from the context menu
+	2. Add the condition - When Is Terminated = false
+	At this point, if you build the solution or validate the model, you will get the following error This is because, a table column cannot be mapped more than once. We have used IsTerminated column in conditional mapping, 
+	so it cannot be used in property mapping as well. For this reason delete it from Employee entity.
+14) To do conditional mapping in Code First, all you need to do is override OnModelCreating in DBContext class.
+			modelBuilder.Entity<Employee>()
+                .Map(m => m.Requires("IsTerminated")
+                .HasValue(false))
+                .Ignore(m => m.IsTerminated);
+	
+continue on part 16
