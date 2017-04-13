@@ -87,5 +87,12 @@
                 .Map(m => m.Requires("IsTerminated")
                 .HasValue(false))
                 .Ignore(m => m.IsTerminated);
+15) What is self referencing association in EF? Imagine an Employees table that had a column for ManagerID which has a value that maps to the same table's EmployeeID. EF will create an Employee entity with navigation fields
+	for their subordinates and manager. EF will name it something funky like Employees1 and Employee1, just remember to change these when using the Schema First Approach.
+16) With Code First Approach, to create a self referencing association table in EF override OnModelCreating in DBContext class.
+	 modelBuilder.Entity<Employee>()
+        .HasOptional(e => e.Manager)
+        .WithMany()
+        .HasForeignKey(m => m.ManagerID);
 	
-continue on part 16
+continue on part 18
