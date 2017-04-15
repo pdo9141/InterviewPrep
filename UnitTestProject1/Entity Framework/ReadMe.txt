@@ -94,5 +94,13 @@
         .HasOptional(e => e.Manager)
         .WithMany()
         .HasForeignKey(m => m.ManagerID);
-	
-continue on part 18
+17) How do you do Table Per Hierarchy (TPH) Inheritance in EF schema first? For example you have one Employees DB table which holds both permenant and contract employee details. You want to have an object graph of Employee (base class) 
+	and two subclasses that derive from this, ContractEmployee and PermanentEmployee. In designer view, add entity PermanentEmployee and select base type as Employee. Cut and paste fields from Employee that are specific to PermanentEmployee.
+	Do the same for ContractEmployee. Right-click ContractEmployee and PermanentEmployee and select table mapping to map your fields. Go to properties of Employee and set the Abstract value to False. You don't want developers creating
+	instances of Employee. Go back to mappings and add condition, When Discriminator = PermanentEmployee or When Discriminator = ContractEmployee so that EF knows how to map your entities. You need to now delete the Discriminator field
+	from Employee to avoid build error. Use OfType method when you query EF to produce derived types. employeeDBContext.Employees.OfType<PermanentEmployee>().ToList(); If by chance you want all Employee base but want all fields for both
+	ContractEmployee and PermanentEmployee to display, create a private method that expects List<Employee>, create a DataTable with all columns, populate rows by casting using "employee is PermanentEmployee".
+18) How do you do Table Per Hierarchy with code first? Create your object graphs with inheritance, Discriminator will be automatically created for you. You can use [Column(Order = 1)] attribute to control order of DB table column ordering.
+
+
+continue on part 20
