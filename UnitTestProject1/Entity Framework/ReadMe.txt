@@ -101,6 +101,76 @@
 	from Employee to avoid build error. Use OfType method when you query EF to produce derived types. employeeDBContext.Employees.OfType<PermanentEmployee>().ToList(); If by chance you want all Employee base but want all fields for both
 	ContractEmployee and PermanentEmployee to display, create a private method that expects List<Employee>, create a DataTable with all columns, populate rows by casting using "employee is PermanentEmployee".
 18) How do you do Table Per Hierarchy with code first? Create your object graphs with inheritance, Discriminator will be automatically created for you. You can use [Column(Order = 1)] attribute to control order of DB table column ordering.
+19) How do you implement Table Per Type (TPT) in Schema first approach? Imagine you have normalized tables (Employees, ContractEmployees and PermanentEmployees tables), you would add your ADO.NET Data Model, by default, you get foreign key
+	relationship with navigation fields. Right-click the lines connecting entities and delete. Add you inheritance relationship in the designer and delete the EmployeeId field from the two derived tables.
+20) How do you implement Table Per Type inheritance in code first approach. Create your Employee, ContractEmployee, and PermanentEmployee entities with your inheritance. By default EF will create just one table (Employees with discriminator field) 
+	for this inheritance setup. If you want three DB tables to be created decorate your three entity classes with [Table("Employees")], [Table("ContractEmployees")], [Table("PermanentEmployees")] attributes. Alternatively, you could also
+	override the OnModelCreating method of DbContext, 
+		modelBuilder.Entity<Employee>().ToTable("Employees");
+		modelBuilder.Entity<Employee>().ToTable("ContractEmployees");
+		modelBuilder.Entity<Employee>().ToTable("PermanentEmployees");
+21) How do you implement many to many relationship with Schema first approach. Imagine Courses and Students DB table with a StudentCourses bridge or junction table, EF will actually create the entities properly. 
+	Select all three DB tables in designer, since the bridge table only contains foreign keys, only Course and Student entities will be created with table mappings to StudentCourses. 	
 
+	//Query all students and their courses
+	GridView1.DataSource = from student in employeeDBContext.Students
+						from course in student.Courses
+						select new
+						{
+							StudentName = student.StudentName,
+							CourseName = course.CourseName
+						};
 
-continue on part 20
+	//Add WCF course for Mike
+	EmployeeDBContext employeeDBContext = new EmployeeDBContext();
+    Course WCFCourse = employeeDBContext.Courses.FirstOrDefault(x => x.CourseID == 4);
+    employeeDBContext.Students.FirstOrDefault(x => x.StudentID == 1).Courses.Add(WCFCourse);
+    employeeDBContext.SaveChanges();
+
+	//Delete SQL Server course for John
+	EmployeeDBContext employeeDBContext = new EmployeeDBContext();
+    Course SQLServerCourse = employeeDBContext.Courses.FirstOrDefault(x => x.CourseID == 3);
+	employeeDBContext.Students.FirstOrDefault(x => x.StudentID == 2).Courses.Remove(SQLServerCourse);
+    employeeDBContext.SaveChanges();
+22) How do you implement many to many relationship with code first approach. Write your entities with navigation fields ICollection<Course> and ICollection<Student>, override OnModelCreating DbContext method.
+		modelBuilder.Entity<Student>()
+				.HasMany(t => t.Courses)
+				.WithMany(t => t.Students)
+				.Map(m =>
+				{
+					m.ToTable("StudentCourses");
+					m.MapLeftKey("StudentID");
+					m.MapRightKey("CourseID");
+				});
+23) What if your requirements change and you need to add an EnrolledDate to the junction table? Now you want EF to create an entity for the StudentCourses table. In your designer select all three DB tables, since the bridge table
+	has additional columns (EnrolledDate in this case) other than foreign keys the junction table will have a StudentCourse entity created along with Student and Course. 
+
+	GridView1.DataSource = (from student in employeeDBContext.Students
+							from studentCourse in student.StudentCourses
+                            select new
+                            {
+                                StudentName = student.StudentName,
+                                CourseName = studentCourse.Course.CourseName,
+                                EnrolledDate = studentCourse.EnrolledDate
+                            }).ToList();
+
+    // The above query can also be written as shown below
+    //GridView1.DataSource = (from course in employeeDBContext.Courses
+    //                        from studentCourse in course.StudentCourses
+    //                        select new
+    //                        {
+    //                            StudentName = studentCourse.Student.StudentName,
+    //                            CourseName = course.CourseName,
+    //                            EnrolledDate = studentCourse.EnrolledDate
+    //                        }).ToList();
+
+	EmployeeDBContext employeeDBContext = new EmployeeDBContext();
+	employeeDBContext.StudentCourses.AddObject(new StudentCourse { StudentID = 1, CourseID = 4, EnrolledDate = DateTime.Now });
+	employeeDBContext.SaveChanges();
+
+	EmployeeDBContext employeeDBContext = new EmployeeDBContext();
+    StudentCourse studentCourseToRemove = employeeDBContext.StudentCourses.FirstOrDefault(x => x.StudentID == 2 && x.CourseID == 3);
+    employeeDBContext.StudentCourses.DeleteObject(studentCourseToRemove);
+    employeeDBContext.SaveChanges();
+24) How to implement code first many to many with bridge table class. Create your three entity classes, in your bridge class use [Key, Column(Order = 1)] and [Key, Column(Order = 2)] attributes for StudentID and CourseID. Your 
+	Student and Course classes should have navigation field IList<StudentCourse> StudentCourses. Your EmployeeDBContext class should have DbSet for all three classes.
