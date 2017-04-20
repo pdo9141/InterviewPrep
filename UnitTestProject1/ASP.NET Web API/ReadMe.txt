@@ -38,5 +38,28 @@
 	Within the WebApiConfig.cs file, you can easily update the formatters with the lines below:
 		config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
 		config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+06) What is MediaTypeFormatter? MediaTypeFormatter is an abstract class from which JsonMediaTypeFormatter and XmlMediaTypeFormatter classes inherit from. JsonMediaTypeFormatter handles JSON 
+	and XmlMediaTypeFormatter handles XML.
+	How to return only JSON from ASP.NET Web API Service irrespective of the Accept header value?
+		config.Formatters.Remove(config.Formatters.XmlFormatter);
+	How to return only XML from ASP.NET Web API Service irrespective of the Accept header value?
+		config.Formatters.Remove(config.Formatters.JsonFormatter);
+	How to return JSON instead of XML from ASP.NET Web API Service when a request is made from the browser?
+		1) config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+		   The problem with this approach is that Content-Type header of the response is set to text/html which is misleading.
+		2) Create your own CustomJsonFormatter : JsonMediaTypeFormatter, in constructor this.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+		   Override the SetDefaultContentHeaders method headers.ContentType = new MediaTypeHeaderValue("application/json");
+		   Register the formatter in Register() config.Formatters.Add(new CustomJsonFormatter());
+	How do you create your own CSV formatter? http://www.tugberkugurlu.com/archive/creating-custom-csvmediatypeformatter-in-asp-net-web-api-for-comma-separated-values-csv-format 
+07) Decorate the parameter for the POST method with [FromBody] Employee employee to hydrate the argument with the response body. By default you'll get 204 status code when POST is called with void.
+	You want to return HttpResponseMessage instead and return Request.CreateResponse(HttpStatusCode.Created, employee), that is 201 status code, EF will update employee with auto generated ID
+	You'll probably want to include the URI where you can get newly created employee. Use message.Headers.Location = new Uri(Request.RequestUri + employee.ID.ToString())
+	If there are any errors, log exception then use Request.CreateErrorResponse(HttpStatusCode.BadRequest, ex), might not be a good idea to return ex if public API
+08) When using GET method, make sure you respond with proper HTTP status code if no resource found, not return 200 (HttpStatusCode.OK), return 404 (HttpStatusCode.NotFound)
+	Request.CreateResponse(HttpStatusCode.NotFound, "Employee with id " + id " not found)
+09) When using DELETE method, on success ensure you return status code 200 and not 204. On failure ensure you return HttpStatusCode.NotFound (404) or HttpStatusCode.BadRequest (400)
+10) When using PUT method, Put(int id, [FromBody]Employee employee), on success ensure you return 200 and not 204 (no content). On failure ensure you return HttpStatusCode.NotFound (404) or HttpStatusCode.BadRequest (400)
+11) How do you create custom method names in API controller and map them to proper HTTP method? Use [HttpGet], [HttpPost], [HttpPut], [HttpDelete] attributes 
 
-continue at part 6
+
+continue on part 11
