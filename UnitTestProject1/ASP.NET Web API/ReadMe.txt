@@ -60,6 +60,83 @@
 09) When using DELETE method, on success ensure you return status code 200 and not 204. On failure ensure you return HttpStatusCode.NotFound (404) or HttpStatusCode.BadRequest (400)
 10) When using PUT method, Put(int id, [FromBody]Employee employee), on success ensure you return 200 and not 204 (no content). On failure ensure you return HttpStatusCode.NotFound (404) or HttpStatusCode.BadRequest (400)
 11) How do you create custom method names in API controller and map them to proper HTTP method? Use [HttpGet], [HttpPost], [HttpPut], [HttpDelete] attributes 
+12) By default, how does Web.API handle parameter binding? If the parameter is a simple type like int, bool, double, etc., Web API tries to get the value from the URI (Either from route data or Query String)
+	If the parameter is a complex type like Customer, Employee etc., Web API tries to get the value from the request body. We can change this default parameter binding process by using [FromBody] and [FromUri] attributes. 
+	We have decorated id parameter with [FromBody] attribute, this forces Web API to get it from the request body
+	We have decorated employee parameter with [FromUri] attribute, this forces Web API to get employee data from the URI (i.e Route data or Query String)
+13) How do you use JQuery to call Web.API? 
+	$(document).ready(function () {
+            var ulEmployees = $('#ulEmployees');
+            $('#btn').click(function () {
+                $.ajax({
+                    type: 'GET',
+                    url: "api/employees/",
+                    dataType: 'json',
+                    success: function (data) {
+                        ulEmployees.empty();
+                        $.each(data, function (index, val) {
+                            var fullName = val.FirstName + ' ' + val.LastName;
+                            ulEmployees.append('<li>' + fullName + '</li>');
+                        });
+                    }
+                });
+            });
+        });
+14) What is same origin policy? Browsers allow a web page to make AJAX requests only with in the same domain. Browser security prevents a web page from making AJAX requests to another domain. This is called same origin policy. 
+	You'll encounter a CORS issue if port, http vs https, or .com vs .net is different. There are two ways to get around the problem:
+	1) Using JSONP (JSON with Padding) 
+	   Install Nuget package WebApiContrib.Formatting.Jsonp
+	   Add these lines into WebApiConfig Register()
+	       var jsonpFormatter = new JsonpMediaTypeFormatter(config.Formatters.JsonFormatter);
+	   In client AJAX call, change the dataType from json to jsonp
+		   config.Formatters.Insert(0, jsonpFormatter);
+	2) Enabling CORS (Cross Origin Resource Sharing)
+	   Install Nuget package Microsoft.AspNet.WebApi.Cors
+	   Add these lines into WebApiConfig Register()
+	       EnableCorsAttribute cors = new EnableCorsAttribute("*", "*", "*"); // instead of *, you can be more grandular with origns, headers, methods
+           config.EnableCors(cors);
+	  EnableCors attribute can be applied on a specific controller or controller method. Remember to only still prep your app for CORS with config.EnableCors(); in WebApiConfig Register()
+	  To disable CORS for a specific action apply [DisableCors] on that specific action
+	  CORS is only a browser security thing, if you use Fiddler you will be able to make the request and get a response
+15) How do you enable SSL (HTTPS) in Visual Studio for your Web.API project? Right-click on the project and go to properties, set SSL Enabled to true. Navigate to a REST method, click on the certificate issue, 
+	click proceed to localhost link to see invalid certificate message. Make sure to click on the lock symbol in the URL to see the invalid certificate message. The reason for this is that, the certificate that 
+	Visual Studio installed automatically is not trusted. To resolve this problem we have to place the certificate that visual studio has issued in the Trusted Root Certificates folder.
+		1. In the RUN window, type mmc.exe and click OK
+		2. On the window that appears, click "File" - "Add/Remove Snap-in"
+		3. From the "Available snap-ins" list select "Certificates" and click "Add"
+		4. On the next screen, select "Computer account" radio button
+		5. On the next screen, select "Local computer" radio button and click "Finish" and then "OK"
+		6. Expand Console Root - Certificates (Local Computer) - Personal - Certificates. In this folder you will find a certificate that is Issued To local and Issued By local. 	
+		7. Right click on the localhost certificate, and select "All Tasks" and then "Export"
+		8. Click "Next" on the subsequent screen
+		9. Select "DER encoded binary X.509 (.CER)" radio button, and then click Next
+		10. On the next screen, provide a name for the certificate that you are exporting and click "Next". I have placed certificate in my case at c:\Certificates\localhost
+		11. Click "Finish" on the next screen
+		12. Expand Console Root - Certificates (Local Computer) - Trusted Root Certification Authorities - Certificates
+		13. Right click on "Certificates", and select "All Tasks" and then "Import"
+		14. Click "Next" on the subsequent screen
+		15. Enter the complete path where you have exported the certificate and click "Next". In my case the certificate is at c:\Certificates\localhost.cer
+		16. On the next screen, select "Place all certificates in the following store" radio button and click "Next"
+		17. Finally click "Finish"	
+16) How do you enable HTTPS in Web.API? Create a new class that inherits AuthorizationFilterAttribute (RequireHttpsAttribute), override the OnAuthorization method.
+		public override void OnAuthorization(HttpActionContext actionContext)
+        {
+            if (actionContext.Request.RequestUri.Scheme != Uri.UriSchemeHttps)
+            {
+                actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Found);
+                actionContext.Response.Content = new StringContent("<p>Use https instead of http</p>", Encoding.UTF8, "text/html");
+                UriBuilder uriBuilder = new UriBuilder(actionContext.Request.RequestUri);
+                uriBuilder.Scheme = Uri.UriSchemeHttps;
+                uriBuilder.Port = 44337;
+                actionContext.Response.Headers.Location = uriBuilder.Uri;
+            }
+            else
+            {
+                base.OnAuthorization(actionContext);
+            }
+        }
+	In WebApiConfig Register() add config.Filters.Add(new RequireHttpsAttribute());
+	Please note: If you don't want to enable HTTPS for the entire application then don't add RequireHttpsAttribute to the filters collection on the config object in the register method. 
+	Simply decorate the controller class or the action method with RequireHttpsAttribute for which you want HTTPS to be enabled. For the rest of the controllers and action methods HTTPS will not be enabled. 
 
-
-continue on part 11
+continue on part 18
