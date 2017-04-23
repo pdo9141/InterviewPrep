@@ -229,8 +229,37 @@
 	3. To retrieve an item from the browser session storage use getItem() method. Example: sessionStorage.getItem("accessToken")
 	4. To remove an item from the browser session storage use removeItem() method. Example: sessionStorage.removeItem('accessToken')
 
+	Here's the code to use the token in JQuery/AJAX:
+	  $.ajax({
+            url: '/api/employees',
+            method: 'GET',
+            headers: {
+                'Authorization': 'Bearer ' + sessionStorage.getItem("accessToken")
+            },
+            success: function (data) {
+                $('#divData').removeClass('hidden');
+                $('#tblBody').empty();
+                $.each(data, function (index, value) {
+                    var row = $('<tr><td>' + value.ID + '</td><td>'
+                        + value.FirstName + '</td><td>'
+                        + value.LastName + '</td><td>'
+                        + value.Gender + '</td><td>'
+                        + value.Salary + '</td></tr>');
+                    $('#tblData').append(row);
+                });
+            },
+            error: function (jQXHR) {
+                // If status code is 401, access token expired, so
+                // redirect the user to the login page
+                if (jQXHR.status == "401") {
+                    $('#errorModal').modal('show');
+                }
+                else {
+                    $('#divErrorText').text(jqXHR.responseText);
+                    $('#divError').show('fade');
+                }
+            }
+        });
 
 
-
-
-continue on part 
+continue on part 27 
