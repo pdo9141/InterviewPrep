@@ -260,6 +260,47 @@
                 }
             }
         });
+22) How do you get authenticated user identity name in ASP.Net Web API? The response object from the POST token call returns a JSON object with many fields including username. From the Web.API controller method, you can get logged in user
+	identity details by using User.Identity or RequestContext.Principal.Identity.
+23) What are the benefits of using external social authentication such as Google or Facebook? Registration is simple and easy. All they have to provide is their social login username and password and the user is registered with our application. 
+	This also means one less password to remember. When users don’t have to remember mulitple usernames and passwords to login to multiple web sites, there will be less failed logins. As you know remembering multiple usernames and passwords 
+	is definitely as hassle. From development point of view, we do not have to write code to manage usernames and passwords. All this is done by the external authentication providers like Google, Facebook, Twitter, Microsoft etc. 
+24) How do you implement Google authentication with Web API?
+	Step 1 : To register your application go to 
+	https://console.developers.google.com
+	Step 2 : Login with your GMAIL account. Click on Credentials link on the left, and then create a new project, by clicking on "Create Project" button. 
+	Step 3 : Name your project "Test Project" and click "CREATE" button. 
+	Step 4 : The new project will be created. Click on "OAuth consent screen". In the "Product name shown to users" textbox type "Test Project" and click "Save" button 
+	Step 5 : The changes will be saved and you will be redirected to "Credentials" tab. If you are not redirected automatically, click on the "Credentials" tab and you will see "Create Credentials" dropdown button. Click on the button, 
+	and select "OAuth client ID" option 
+	Step 6 : On the next screen, 
+	Select "Web application" radio button. 
+	Type "Web client 1" in the "Name" textbox.
+	In the "Authorized JavaScript origins" textbox type in the URI of your application. I have my web api application running at http://localhost:61358
+	In the "Authorized redirect URIs" textbox type in the redirect URI i.e the path in our application that users are redirected to after they have authenticated with Google. I have set it to http://localhost:61358/signin-google
+	Click the "Create" button, you will see a popup with OAuth client ID and client secret. Make a note of both of them. We will need both of these later. 
+	Step 7 : Enable Google+ API service. To do this click on "Library" link on the left hand pane.Under "Social APIs" click on "Google+ API" link and click "Enable" button.
+
+	Enable Google OAuth authentication in ASP.NET Web API service
+	Step 1 : In Startup.Auth.cs file in App_Start folder un-comment the following code block, and include ClientId and ClientSecret that we got after registering our application with Google.
+	Step 2 : In Login.html page include the following HTML table, just below "Existing User Login" table
+	Step 3 : In the script section, in "Login.html" page, wire up the click event handler for "Login with Google" button. 
+	Step 4 : Open "ApplicationOAuthProvider.cs" file from "Providers" folder, and modify ValidateClientRedirectUri() method as shown below. The change is to set the Redirect URI to Login.html
+	Step 5 : At this point build the solution and navigate to Login.html. Click on "Login with Google" button. Notice we are redirected to "Google" login page. Once we provide our Google credentials and successfully login, we are redirected to 
+	our application Login.html page with access token appended to the URL.
+	Step 6 : Next we need to retrieve the access token from the URL. The following JavaScript function does this. Add a new JavaScript file to the Scripts folder. Name it GoogleAuthentication.js. Reference jQuery. You can find minified jQuery 
+	file in the scripts folder. Copy and and paste the following function in it. Notice we named the function getAccessToken(). 
+	Step 7 : Notice the above function calls isUserRegistered() JavaScript function which checks if the user is already registered with our application. isUserRegistered() function is shown below. To check if the user is registered we issue a 
+	GET request to /api/Account/UserInfo passing it the access token using Authorization header. If the user is already registered with our application, we store the access token in local storage and redirect the user to our protected page which 
+	is Data.html. If the user is not registered, we call a different JavaScript function - signupExternalUser(). We will discuss what signupExternalUser() function does in just a bit. Now copy and paste the following function also 
+	in GoogleAuthentication.js file.
+	Step 8 : If the Google authenticated user is not already registered with our application, we need to register him. This is done by signupExternalUser() function show below. To register the user with our application we issue 
+	a POST request to /api/Account/RegisterExternal, passing it the access token. Once the user is successfully registered, we redirect him again to the same URL, to which the user is redirected when we clicked the "Login with Google" button. 
+	Since the user is already authenticated by Google, the access token will be appended to the URL, which will be parsed by getAccessToken() JavaScript function. getAccessToken() function will again call isUserRegistered() function. Since 
+	the user is already registered with our application, we redirect him to the Data.html page and he will be able to see the employees data. Copy and paste the following function also in GoogleAuthentication.js file.
+	Step 9 : In AccountController.cs, modify RegisterExternal() method as shown below. Notice we removed "RegisterExternalBindingModel" parameter and if (!ModelState.IsValid) code block.
+	Step 10 : Finally, on Login.html page reference GoogleAuthentication.js file and call get getAccessToken() function
+25) How do you implement Facebook authentication with Web API?
 
 
-continue on part 27 
+continue on part 29
