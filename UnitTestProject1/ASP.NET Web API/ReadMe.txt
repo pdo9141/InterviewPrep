@@ -193,8 +193,44 @@
 	Is it mandatory for the Identity tables to be in a separate database. Can't we have them created in an existing database? Yes you can.
 	You can have them created by Identity framework in an existing database by just making your connection string point to your existing database instead of a separate database.
 	<add name="DefaultConnection" connectionString="Data Source=(local);Initial Catalog=EmployeeDB;Integrated Security=True" providerName="System.Data.SqlClient" />
-20) How do you implement token authentication in Web API? 
+20) How do you implement token authentication in Web API? When you scaffold a new Web.API application, you get the token API method. In Fiddler, for example, you can use the POST method to post to 
+	http://localhost:34838/token with the request body of username=a@a.com@password=Test123@&grant_type=password. Look at the response, you'll see a JSON response with fields for your access_token, 
+	when it expires, when it was issued, the token type, and the userName. All this was provided out of the box by ASP.NET Web.API, see Startup.Auth.cs and it's ConfigureAuth method. Where is the
+	code that validates the username/password passed? If you look closely at the ConfigureAuth method, you'll see as part of the OAuthAuthorizationServerOptions a Provider field which is set to 
+	an instance of ApplicationOAuthProvider, go to this definition to find the GrantResourceOwnerCredentials method. You can now use this token to try and access an Authorized endpoint. In Fiddler,
+	issue a GET request and add to your header an Authorization: Bearer [copy the token out from your post token request]
+21) How do you issue a token request with JQuery/AJAX? Don't forget to set contentType and grant_type.
+		$.ajax({
+			// Post username, password & the grant type to /token
+			url: '/token',
+			method: 'POST',
+			contentType: 'application/json',
+			data: {
+				username: $('#txtUsername').val(),
+				password: $('#txtPassword').val(),
+				grant_type: 'password'
+			},
+			// When the request completes successfully, save the access token in the browser session storage and
+			// redirect the user to Data.html page. We do not have this page yet. So please add it to the EmployeeService project before running it
+			success: function (response) {
+				sessionStorage.setItem("accessToken", response.access_token);
+				window.location.href = "Data.html";
+			},
+			// Display errors if any in the Bootstrap alert <div>
+			error: function (jqXHR) {
+				$('#divErrorText').text(jqXHR.responseText);
+				$('#divError').show('fade');
+			}
+		});
+
+	Please note: 
+	1. sessionStorage data is lost when the browser window is closed.
+	2. To store an item in the browser session storage use setItem() method. Example: sessionStorage.setItem("accessToken", response.access_token)
+	3. To retrieve an item from the browser session storage use getItem() method. Example: sessionStorage.getItem("accessToken")
+	4. To remove an item from the browser session storage use removeItem() method. Example: sessionStorage.removeItem('accessToken')
 
 
 
-continue on part 23
+
+
+continue on part 

@@ -1,7 +1,7 @@
 ﻿01) What tools would you use to profile memory?
 	CLRProfiler, Redgate Memory Profiler
 02) How can you verify queries EF is generating under the hood?
-	SQL Profiler
+	SQL Profiler, while debugging use ToTraceString(), you'll need to cast your IQueryable to ObjectQuery
 03) What is IO bound and CPU bound mean?
 	IO bound means read/write to disk or network read/write would go faster if IO subsystem is faster (SSD hard drive possibly)
 	CPU bound means calculations would be faster if CPU were faster
@@ -45,3 +45,18 @@
 	Step 1: Sender sends the original data, the encrypted data, the public key, and information about how to verify the signature (for example, what algorithm is being used)
 	Step 2: Verifier performs the decrypt operation above and compares his output with the original data. If the two are the same, he knows that the message was not tampered with, because only
 			the sender has the private key, and there is no reasonable way to determine the private key from the public key
+10) What is TCP/IP? The de facto standard for modern data communications across all networks including the Internet. Two key TCP/IP features support decentralization: 1) End node verification: the
+	two endpoints of any data transfer are responsible for making sure it was successful = no centralized control scheme. 2) Dynamic routing: End nodes can transfer data over multiple paths, and 
+	the network chooses the best (fastest, most reliable) path for each individual data transfer. Application Layer > Transport Layer > Internet Layer > Net Access Layer. The applications you use
+	forwards data to the application layer which uses HTTP, SMTP, FTP. Data is then transferred (ports) to the Transport Layer uses TCP or UDP (low latency, gaming). Once TCP gets the data,
+	it chops it up into smaller chunks or packets where they can individually take the quickest route over the internet to get to wherever it is they are going. TCP slaps a header onto each packet
+	that contains instructions on what order to reasemble the packets into as well as error checking information so that receiving computer knows whether the packet data arrived without any mishap.
+	The packets are then pushed onto the Internet Layer which uses IP or Internet Protocol to attach both origin and destination IP address. Data is then sent Network Layer which handles things
+	like mac addressing so packets go to the right physical machine.
+	TCP/IP (Transmission Control Protocol, Internet Protocol) is a set of data transfer protocols used by modern data networks. 
+	Data network: a group of computers and other devices that communicate over a shared medium
+	Data & requests for data are transmitted between computers over the network
+	Physical transmission mediums can be copper cables, fiber optics, or radio waves
+	A network protocol is a set of rules for how applications intercommunicate. Common applications include SMTP, IMAP, and POP (email). HTTP (web). SSH (secure access). NFS and FTP (file transfer)
+
+
