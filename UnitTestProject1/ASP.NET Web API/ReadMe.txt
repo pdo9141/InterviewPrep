@@ -138,5 +138,63 @@
 	In WebApiConfig Register() add config.Filters.Add(new RequireHttpsAttribute());
 	Please note: If you don't want to enable HTTPS for the entire application then don't add RequireHttpsAttribute to the filters collection on the config object in the register method. 
 	Simply decorate the controller class or the action method with RequireHttpsAttribute for which you want HTTPS to be enabled. For the rest of the controllers and action methods HTTPS will not be enabled. 
+17) How do you implement basic authentication in Web API? Create a class file (BasicAuthenticationAttribute) which inherits from AuthorizationFilterAttribute, override the OnAuthorization method.
+	public override void OnAuthorization(HttpActionContext actionContext)
+        {
+            if (actionContext.Request.Headers.Authorization == null)
+            {
+                actionContext.Response = actionContext.Request
+                    .CreateResponse(HttpStatusCode.Unauthorized);
+            }
+            else
+            {
+                string authenticationToken = actionContext.Request.Headers.Authorization.Parameter;
+                string decodedAuthenticationToken = Encoding.UTF8.GetString(Convert.FromBase64String(authenticationToken));
+                string[] usernamePasswordArray = decodedAuthenticationToken.Split(':');
+                string username = usernamePasswordArray[0];
+                string password = usernamePasswordArray[1];
 
-continue on part 18
+                if (EmployeeSecurity.Login(username, password))
+                {
+                    Thread.CurrentPrincipal = new GenericPrincipal(new GenericIdentity(username), null);
+                }
+                else
+                {
+                    actionContext.Response = actionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
+                }
+            }
+        }
+	
+	Enable basic authentication
+	1. The BasicAuthenticationAttribute can be applied on a specific controller, specific action, or globally on all Web API controllers.
+	2. To enable basic authentication across the entire Web API application, register BasicAuthenticationAttribute as a filter using the Register() method in WebApiConfig class
+		config.Filters.Add(new RequireHttpsAttribute());
+	3. You can also apply the attribute on a specific controller, to enable basic authentication for all the methods in that controller
+	4. In our case let's just enable basic authentication for Get() method in EmployeesController. Also modify the implementation of the Get() method as shown below.
+18) How do you call Web API with basic authentication using JQuery AJAX? Use the attribute code below when making the AJAX call:
+	headers: {
+		'Authorization': 'Basic ' + btoa(username + ':' + password)
+	}
+19) How do you use and customize ASP.NET Identity with Web API?
+	__MigrationHistory	The presence of this table tells us that it is using entity framework
+	AspNetRoles			Store roles information. We do not have any roles yet so this table is empty
+	AspNetUserClaims	We do not have claims, so this table will also be empty
+	AspNetUserLogins	This table is for third party authentication providers like Twitter, Facebook. Microsoft etc. Information about those logins will be stored in this table
+	AspNetUserRoles		This is a mapping table which tells us which users are in which roles
+	AspNetUsers			This table stores the registered users of our application
+
+	The DefaultConnection string in web.config controls the name of the generated database. To change the name of the generated database change the DefaultConnection string in web.config. 
+	For example, if you want to name the database - UsersDB, change the DefaultConnection string as shown below
+	<add name="DefaultConnection" connectionString="Data Source=(LocalDb)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\UsersDB.mdf;Initial Catalog=UsersDB;Integrated Security=True" providerName="System.Data.SqlClient" />
+
+	Can we create this database in SQL Server? The answer is, YES we can. To create the database in SQL Server, change the DefaultConnection string in web.config to point to your SQL Server. 
+	<add name="DefaultConnection" connectionString="Data Source=(local);Initial Catalog=UsersDB;Integrated Security=True" providerName="System.Data.SqlClient" />
+
+	Is it mandatory for the Identity tables to be in a separate database. Can't we have them created in an existing database? Yes you can.
+	You can have them created by Identity framework in an existing database by just making your connection string point to your existing database instead of a separate database.
+	<add name="DefaultConnection" connectionString="Data Source=(local);Initial Catalog=EmployeeDB;Integrated Security=True" providerName="System.Data.SqlClient" />
+20) How do you implement token authentication in Web API? 
+
+
+
+continue on part 23

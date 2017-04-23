@@ -52,4 +52,5 @@
 	== will do any type casting before comparison, === matches with exact types
 13) What does 'use strict' do in Javascript?
 	New feature in ECMAScript 5, strict operating context prevents certain actions and throws more exceptions hence more strict
+14) What is FOUC and FOUT?
 	
