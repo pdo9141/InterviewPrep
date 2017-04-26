@@ -301,6 +301,26 @@
 	Step 9 : In AccountController.cs, modify RegisterExternal() method as shown below. Notice we removed "RegisterExternalBindingModel" parameter and if (!ModelState.IsValid) code block.
 	Step 10 : Finally, on Login.html page reference GoogleAuthentication.js file and call get getAccessToken() function
 25) How do you implement Facebook authentication with Web API?
+	Due to Facebook making a breaking change to it's API URL, you need to create a FacebookBackChannelIHandler that inherits HttpClientHandler, override the SendAsync method.
+	Enable Facebook authentication in Startup.Auth.cs.
+		var facebookOptions = new FacebookAuthenticationOptions()
+		{
+			AppId = "160811734413146",
+			AppSecret = "21f2665e0aed11867fcd8d35e67d6068",
+			BackchannelHttpHandler = new FacebookBackChannelHandler(),
+			UserInformationEndpoint = "https://graph.facebook.com/v2.4/me?fields=id,email"
+		};
+		facebookOptions.Scope.Add("email");
+		app.UseFacebookAuthentication(facebookOptions);
+26) How do you use attribute routing in ASP.NET Web API? The framework will get confused if you have two action methods that starts with GetXXXX and has the same arguments. Decorate methods with the [Route("api/students/{id}/courses")] attribute
+	config.MapHttpAttributeRoutes() enable attribute routing
+27) How do you use route prefix in Web API? Instead of always specifying "api/students" in the Route attribute, decorate the controller with [RoutePrefix("api/students")] now you can remove that string part in your route attributes.
+	To override the route prefix, in case you have a GetTeachers method in your Student controller, you need to use the "~" symbol in your route attribute, [Route("~/api/teachers")]
+28) How do you use attribute routing constraints? Say you have two methods, Get(int id) and Get(string name), you must use routing constraints else framework will be confused, use [Route("{id:int}")] and [Route("{name:alpha}")].
+	Other constraints include min, max, length, minlength, maxlength, and range which take arguments. [Route("{id:int:min(1)}")], [Route("{id:int:min(1):max(3)}")], [Route("{id:int:range(1,3)}")]
 
 
-continue on part 29
+
+
+
+continue on part 33
