@@ -318,9 +318,41 @@
 	To override the route prefix, in case you have a GetTeachers method in your Student controller, you need to use the "~" symbol in your route attribute, [Route("~/api/teachers")]
 28) How do you use attribute routing constraints? Say you have two methods, Get(int id) and Get(string name), you must use routing constraints else framework will be confused, use [Route("{id:int}")] and [Route("{name:alpha}")].
 	Other constraints include min, max, length, minlength, maxlength, and range which take arguments. [Route("{id:int:min(1)}")], [Route("{id:int:min(1):max(3)}")], [Route("{id:int:range(1,3)}")]
+29) How do you generate links using route names in Web API? When a client issues an HTTP POST request to create a resource, you should send back a 201 code and set the location header attribute with a link to the newly create resource.
+	1. Set a name for the route using the Name property of the [Route] attribute
+	[Route("{id:int}", Name = "GetStudentById")]
+	public Student Get(int id)
+	{
+		return students.FirstOrDefault(s => s.Id == id);
+	}
 
+	2. Use the name of the route to generate the link 
+	public HttpResponseMessage Post(Student student)
+	{
+		students.Add(student);
+		var response = Request.CreateResponse(HttpStatusCode.Created);
+		response.Headers.Location = new Uri(Url.Link("GetStudentById", new { id = student.Id }));
+		return response;
+	}
+30) Whats the difference between IHttpActionResult (Web API 2) and HttpResponseMessage (Web API 1)? Using IHttpActionResult, the code is cleaner and easier to read and unit testing controller action methods is much simpler. 
+	You get of helper methods: Ok(), Content(), BadRequest(), Conflict(), Created(), InternalServerError(), Redirect(), Unauthorized()
 
+	if (student == null)
+	{
+		return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Student not found");
+	}
+	return Request.CreateResponse(student);
 
+	if (student == null)
+	{
+		return Content(HttpStatusCode.NotFound, "Student not found");
+	}
+	return Ok(student);
+31) Why is versioning required in Web API? Once a Web API service is made public, different client applications start using your Web API services. As the business grows and requirements change, we may have to change 
+	the services as well, but the changes to the services should be done in way that does not break any existing client applications. This is when Web API versioning helps. We keep the existing services as is, 
+	so we are not breaking the existing client applications, and develop a new version of the service that new client applications can start using.
+32) What are the different options available to acheive versioning? 1. URI's, Query String, Version Header, Accept Header, Media Type 
+32) Web API versioning using URI. Create StudentV1 and StudentV2 entities, create StudentsV1Controller and StudentsV2Controller controllers. Use convention based routing by updating configuration in WebApiConfig.cs.
+	Use attribute routing (prefix optional) in your controllers if you don't wish to use convention based routing.
 
-
-continue on part 33
+continue on part 36
