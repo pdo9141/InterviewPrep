@@ -352,7 +352,224 @@
 	the services as well, but the changes to the services should be done in way that does not break any existing client applications. This is when Web API versioning helps. We keep the existing services as is, 
 	so we are not breaking the existing client applications, and develop a new version of the service that new client applications can start using.
 32) What are the different options available to acheive versioning? 1. URI's, Query String, Version Header, Accept Header, Media Type 
-32) Web API versioning using URI. Create StudentV1 and StudentV2 entities, create StudentsV1Controller and StudentsV2Controller controllers. Use convention based routing by updating configuration in WebApiConfig.cs.
+33) Web API versioning using URI. Create StudentV1 and StudentV2 entities, create StudentsV1Controller and StudentsV2Controller controllers. Use convention based routing by updating configuration in WebApiConfig.cs.
 	Use attribute routing (prefix optional) in your controllers if you don't wish to use convention based routing.
+34) Web API versioning using querystring parameter.
+	1 : Since the default controller selector implementation provided by Web API does not work for us, we have to provide our own custom controller selector implementation. To do this
+	2. Add a folder to the web api project. Name it "Custom"
+	3. Add a class file to the folder. Name it "CustomControllerSelector".
+	4. The next thing that we need to do is, replace the default controller selector with our custom controller selector. This is done in WebApiConfig.cs file. 
+	   Notice we are replacing IHttpControllerSelector, with our CustomControllerSelector. DefaultHttpControllerSelector implements IHttpControllerSelector, 
+	   so that is the reason we are replacing IHttpControllerSelector.
+			config.Services.Replace(typeof(IHttpControllerSelector), new CustomControllerSelector(config));
+	5. Include the following default route in WebApiConfig.cs
+			config.Routes.MapHttpRoute(
+				name: "DefaultRoute",
+				routeTemplate: "api/{controller}/{id}",
+				defaults: new { id = RouteParameter.Optional }
+			);
+	    
+		public class CustomControllerSelector : DefaultHttpControllerSelector
+		{
+			private HttpConfiguration _config;
+			public CustomControllerSelector(HttpConfiguration config) : base(config)
+			{
+				_config = config;
+			}
 
-continue on part 36
+			public override HttpControllerDescriptor
+				SelectController(HttpRequestMessage request)
+			{
+				// Get all the available Web API controllers
+				var controllers = GetControllerMapping();
+				// Get the controller name and parameter values from the request URI
+				var routeData = request.GetRouteData();
+
+				// Get the controller name from route data.
+				// The name of the controller in our case is "Students"
+				var controllerName = routeData.Values["controller"].ToString();
+
+				// Default version number to 1
+				string versionNumber = "1";
+				var versionQueryString = HttpUtility.ParseQueryString(request.RequestUri.Query);
+				if (versionQueryString["v"] != null)
+				{
+					versionNumber = versionQueryString["v"];
+				}
+
+				if (versionNumber == "1")
+				{
+					// if version number is 1, then append V1 to the controller name.
+					// So at this point the, controller name will become StudentsV1
+					controllerName = controllerName + "V1";
+				}
+				else
+				{
+					// if version number is 2, then append V2 to the controller name.
+					// So at this point the, controller name will become StudentsV2
+					controllerName = controllerName + "V2";
+				}
+
+				HttpControllerDescriptor controllerDescriptor;
+				if (controllers.TryGetValue(controllerName, out controllerDescriptor))
+				{
+					return controllerDescriptor;
+				}
+
+				return null;
+			}
+		}
+35) Web API versioning using a custom header.
+		public override HttpControllerDescriptor SelectController(HttpRequestMessage request)
+        {
+            var controllers = GetControllerMapping();
+            var routeData = request.GetRouteData();
+
+            var controllerName = routeData.Values["controller"].ToString();
+
+            // Default the version number to 1
+            string versionNumber = "1";
+
+            // Get the version number from Custom version header
+            // This custom header can have any name. We have to use this
+            // same header to specify the version when issuing a request
+            string customHeader = "X-StudentService-Version";
+            if (request.Headers.Contains(customHeader))
+            {
+                versionNumber = request.Headers.GetValues(customHeader).FirstOrDefault();
+            }
+
+            HttpControllerDescriptor controllerDescriptor;
+            if (versionNumber == "1")
+            {
+                controllerName = string.Concat(controllerName, "V1");
+            }
+            else
+            {
+                controllerName = string.Concat(controllerName, "V2");
+            }
+
+            if (controllers.TryGetValue(controllerName, out controllerDescriptor))
+            {
+                return controllerDescriptor;
+            }
+
+            return null;
+        }
+36) Web API versioning using accept header.
+		public override HttpControllerDescriptor SelectController(HttpRequestMessage request)
+        {
+            var controllers = GetControllerMapping();
+            var routeData = request.GetRouteData();
+
+            var controllerName = routeData.Values["controller"].ToString();
+
+            string versionNumber = "1";
+
+            // Get the version number from Custom version header
+
+            //string customHeader = "X-StudentService-Version";
+            //if (request.Headers.Contains(customHeader))
+            //{
+            //    // If X-StudentService-Version:1 is specified twice in the request
+            //    // then in versionNumber variable will get a value of "1,1"
+            //    versionNumber = request.Headers.GetValues(customHeader).FirstOrDefault();
+            //    // Check if versionNumber string contains a comma, and take only
+            //    // the first number from the comma separated list of version numbers
+            //    if (versionNumber.Contains(","))
+            //    {
+            //        versionNumber = versionNumber.Substring(0, versionNumber.IndexOf(","));
+            //    }
+            //}
+
+            // Get the version number from the Accept header
+
+            // Users can include multiple Accept headers in the request
+            // Check if any of the Accept headers has a parameter with name version
+            var acceptHeader = request.Headers.Accept.Where(a => a.Parameters
+                                .Count(p => p.Name.ToLower() == "version") > 0);
+
+            // If there is at least one header with a "version" parameter
+            if (acceptHeader.Any())
+            {
+                // Get the version parameter value from the Accept header
+                versionNumber = acceptHeader.First().Parameters
+                                .First(p => p.Name.ToLower() == "version").Value;
+            }
+
+            HttpControllerDescriptor controllerDescriptor;
+            if (versionNumber == "1")
+            {
+                controllerName = string.Concat(controllerName, "V1");
+            }
+            else
+            {
+                controllerName = string.Concat(controllerName, "V2");
+            }
+
+            if (controllers.TryGetValue(controllerName, out controllerDescriptor))
+            {
+                return controllerDescriptor;
+            }
+
+            return null;
+        }
+37) Web API versioning using custom media types.
+		public override HttpControllerDescriptor SelectController(HttpRequestMessage request)
+        {
+            var controllers = GetControllerMapping();
+            var routeData = request.GetRouteData();
+
+            var controllerName = routeData.Values["controller"].ToString();
+
+            string versionNumber = "1";
+
+            // Get the version number from the Custom media type
+
+            // Use regular expression for mataching the pattern of the media
+            // type. We have given a name for the matched group that contains
+            // the version number. This enables us to retrieve the version number 
+            // using the group name("version") instead of ZERO based index
+            string regex = @"application\/vnd\.pragimtech\.([a-z]+)\.v(?<version>[0-9]+)\+([a-z]+)";
+
+            // Users can include multiple Accept headers in the request.
+            // Check if any of the Accept headers has our custom media type by
+            // checking if there is a match with regular expression specified
+            var acceptHeader = request.Headers.Accept
+                .Where(a => Regex.IsMatch(a.MediaType, regex, RegexOptions.IgnoreCase));
+            // If there is atleast one Accept header with our custom media type
+            if (acceptHeader.Any())
+            {
+                // Retrieve the first custom media type
+                var match = Regex.Match(acceptHeader.First().MediaType,
+                    regex, RegexOptions.IgnoreCase);
+                // From the version group, get the version number
+                versionNumber = match.Groups["version"].Value;
+            }
+
+            HttpControllerDescriptor controllerDescriptor;
+            if (versionNumber == "1")
+            {
+                controllerName = string.Concat(controllerName, "V1");
+            }
+            else
+            {
+                controllerName = string.Concat(controllerName, "V2");
+            }
+
+            if (controllers.TryGetValue(controllerName, out controllerDescriptor))
+            {
+                return controllerDescriptor;
+            }
+
+            return null;
+        }
+
+		To add the custom media types to the JsonFormatter, include the following 2 lines of code in WebApiConfig.cs file
+		config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/vnd.pragimtech.students.v1+json"));
+		config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/vnd.pragimtech.students.v2+json"));
+
+		To add the custom media types to the XmlFormatter, include the following 2 lines of code in WebApiConfig.cs file
+		config.Formatters.XmlFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/vnd.pragimtech.students.v1+xml"));
+		config.Formatters.XmlFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/vnd.pragimtech.students.v2+xml"));
+38) The End
