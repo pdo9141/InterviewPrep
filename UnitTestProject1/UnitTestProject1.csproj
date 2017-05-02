@@ -120,6 +120,7 @@
     <Content Include="Database\Question15\Queries.sql" />
     <Content Include="Database\Questions.txt" />
     <Content Include="Database\ReadMe.txt" />
+    <Content Include="Database\SqlServer\ReadMe.txt" />
     <Content Include="Design Patterns\ReadMe.txt" />
     <Content Include="Entity Framework\Models\EmployeeModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

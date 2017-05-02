@@ -38,3 +38,5 @@
 22) What does it mean to have QUOTED_IDENTIFIER ON?
 23) What is the CHECK constraint?
 24) What are linked servers? Can SQL Server be linked to Oracle?
+25) Can a foreign key not be linked to a primary key? Yes but it must be unique
+26) What's the difference between varchar and nvarchar? An nvarchar column can store any Unicode data. A varchar column is restricted to an 8-bit codepage
