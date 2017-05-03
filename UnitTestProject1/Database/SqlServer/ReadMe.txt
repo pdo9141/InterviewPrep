@@ -25,6 +25,26 @@
 	"[]" any character within the brackets, SELECT * FROM tblPerson WHERE Name LIKE '[MST]%', matches Tom, Mary, and Sara
 	"[^]" Not any character within the brackets, SELECT * FROM tblPerson WHERE Name LIKE '[^MST]%', matches John and Josh
 08) Aside from specifying SELECT TOP 10 * FROM tblPerson, you can also specify SELECT TOP 50 PERCENT * FROM tblPerson
+09) SELECT Gender, City, SUM(Salary) as TotalSalary, COUNT(ID) as [Total Employees]
+	FROM tblEmployee
+	WHERE Gender = 'Male'
+	GROUP BY Gender, City
+		is the same as
+	SELECT Gender, City, SUM(Salary) as TotalSalary, COUNT(ID) as [Total Employees]
+	FROM tblEmployee
+	GROUP BY Gender, City
+	HAVING Gender = 'Male'
+10) SELECT Gender, City, SUM(Salary) as TotalSalary
+	FROM tblEmployee
+	GROUP BY Gender, City
+		is the same as
+	SELECT City, Gender, SUM(Salary) as TotalSalary
+	FROM tblEmployee
+	GROUP BY City, Gender
+11) What is the difference between WHERE and HAVING?
+	a) WHERE clause can be used with - SELECT, INSERT, and UPDATE statements, where as HAVING clause can only be used with the SELECT statement
+	b) WHERE filters rows before aggregation (GROUPING), whereas, HAVING filters groups, after the aggregations are performed
+	c) Aggregate functions cannot be used in the WHERE clause, unless it is in a sub query contained in a HAVING clause, whereas, aggregate functions
+	   can be used in HAVING clause
 
-
-continue on part 11
+continue on part 12
