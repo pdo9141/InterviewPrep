@@ -46,5 +46,33 @@
 	b) WHERE filters rows before aggregation (GROUPING), whereas, HAVING filters groups, after the aggregations are performed
 	c) Aggregate functions cannot be used in the WHERE clause, unless it is in a sub query contained in a HAVING clause, whereas, aggregate functions
 	   can be used in HAVING clause
+12) Explain inner, cross, left outer, right outer, and full outer joins.
+	(Inner) Join: returns only the matching rows between both the tables. Non matching rows are eliminated
+	Cross Join: produces the Cartesian product of the 2 tables involved in the join. E.g., in the Employees table we have 10 rows and in the Departments table
+			    we have 4 rows. So, a cross join between these 2 tables produces 40 rows. A cross join will not have an ON clause.
+	Right (Outer) Join: returns all the matching rows + non matching rows from the right table
+	Left (Outer) Join: returns all the matching rows + non matching rows from the left table
+	Full (Outer) Join: returns all rows from both the left and right tables, including the non matching rows
+13) Why would you ever use a cross join? One scenario would be you want to display clothes style with all sizes (XS, S, M, L, XL) in some sort or report
+14) How would you query only the non matching rows from the left table?
+	SELECT Name, Gender, Salary, DepartmentName
+	FROM tblEmployee
+	LEFT JOIN tblDepartment ON tblEmployee.DepartmentId = tblDepartment.Id
+	WHERE tblEmployee.DepartmentId IS NULL
+15) How would you query only the non matching rows from the right table?
+	SELECT Name, Gender, Salary, DepartmentName
+	FROM tblEmployee
+	RIGHT JOIN tblDepartment ON tblEmployee.DepartmentId = tblDepartment.Id
+	WHERE tblEmployee.DepartmentId IS NULL
+16) How would you query only the non matching rows from both the left and right tables?
+	SELECT Name, Gender, Salary, DepartmentName
+	FROM tblEmployee
+	FULL JOIN tblDepartment ON tblEmployee.DepartmentId = tblDepartment.Id
+	WHERE tblEmployee.DepartmentId IS NULL OR tblDepartment.Id IS NULL
+17) What is a self join and why would you use it? When you join the table to itself. An example would be an Employee table that has a ManagerId column that
+	references the same Employee table but another row. A self join can be an INNER, LEFT, RIGHT, or CROSS join, depends on how you want to use it.
 
-continue on part 12
+
+
+
+continue on part 15
