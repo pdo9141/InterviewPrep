@@ -71,8 +71,47 @@
 	WHERE tblEmployee.DepartmentId IS NULL OR tblDepartment.Id IS NULL
 17) What is a self join and why would you use it? When you join the table to itself. An example would be an Employee table that has a ManagerId column that
 	references the same Employee table but another row. A self join can be an INNER, LEFT, RIGHT, or CROSS join, depends on how you want to use it.
+18) What are the different ways to replace NULL values? 
+	a) SELECT ISNULL(M.Name, 'No Manager')
+	b) SELECT CASE WHEN M.Name IS NULL THEN 'No Manager' ELSE M.Name
+	c) COALESCE(M.Name, 'No Manager')
+19) What is UNION (no duplicates) and UNION ALL? They are used to combine the resultset of two or more SELECT queries. For both to work, the number, data types, and the order
+	of the columns in the select statements must be the same. UNION is slower since it has to do a DISTINCT and sort to remove duplicates. Order of columns can
+	be different as long as the data type is the same, no one would do this though. You should only use ORDER BY on the last query else you'll get an error.
+20) What are some useful system stored procedures? Be sure not to prefix your procedures with "sp_", this is because there will be ambiguity between user and 
+	system stored procedures, also in future versions there might be naming conflicts. sp_helptext, sp_help, and sp_depends are useful system SPs.
+21) You can encrypt the text of the stored procedure by using the "WITH Encryption" keywords, when users use the sp_helptext they won't be able to view it. 
+22) To create an SP with output parameter, use the keywords OUT or OUTPUT in your parameter specification. When you execute this SP, add OUT or OUTPUT to argument
+23) What are SP return values? What's the difference between SP return values and output parameters? When do you use either? All return values are is when you
+	use the "return" keyword to return a value. Return values can only be INT, you cannot return VARCHAR or NVARCHAR. You cannot return multiple values, just one INT.
+	In general, return is used to convey success or failure.
+		return (SELECT COUNT(Id) FROM tblEmployee)
+		DECLARE @Total INT
+		EXECUTE @Total = spGetTotalCount1
+
+		DECLARE @Total INT
+		EXECUTE spGetTotalCount2 @Total OUTPUT
+24) What are the advantages of using stored procedures over adhoc queries?
+	a) Better execution plan retention and reusability (adhoc queries reuse execution plans but slight changes to query will not reuse it, see samples below)
+		EXECUTE spGetNameById 1 (execution plan cached)
+		EXECUTE spGetNameById 2 (execution plan reused from above)
+		SELECT Name FROM tblEmployee WHERE Id = 1 (execution plan cached)
+		SELECT Name FROM tblEmployee WHERE Id = 2 (new execution plan created)
+	b) Reduces network traffic, imagine a SP with 3000 lines if done adhoc you would be sending 3000 lines across the network		
+	c) Code reusability and better maintainability
+	d) Better Security, you can have finer grain control, you can lock down table and create SP and grant user access to allow user to see data you want them to see
+	e) Avoids SQL Injection attack
+25) What are some built in string functions? 
+	a) ASCII - returns the ASCII code of the given character expression
+	b) CHAR - converts an int ASCII code to a character. The Integer_Expression should be between 0 and 255
+	c) LTRIM - removes blanks on the left handside of the given character expression
+	d) RTRIM - removes blanks on the right handside of the given character expression
+	e) LOWER - converts all characters in given Character_Expression to lowercase
+	f) UPPER - converts all characters in given Character_Expression to uppercase
+	g) REVERSE - reverses all the characters in the given string expression
+	h) LEN - returns the count of total characters in the given string expression, excluding the blanks at the end of the expression
 
 
 
 
-continue on part 15
+continue on part 22
