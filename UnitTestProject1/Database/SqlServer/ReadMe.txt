@@ -110,8 +110,38 @@
 	f) UPPER - converts all characters in given Character_Expression to uppercase
 	g) REVERSE - reverses all the characters in the given string expression
 	h) LEN - returns the count of total characters in the given string expression, excluding the blanks at the end of the expression
+	i) LEFT - returns specified number of characters from the left hand side of the given character expression
+	j) RIGHT - returns specified number of characters from the right hand side of the given character expression
+	k) CHARINDEX - returns the starting position of the specified expression in a character string
+	l) SUBSTRING - returns substring form the given expression
+	m) REPLICATE - repeats the given string for the specified number of times
+	n) SPACE - returns number of spaces specified by the number of spaces argument
+	o) PATINDEX - returns the starting position of the first occurrence of a pattern in a specifed expression. It taks two arguments, the pattern to be searched and the 
+			      expression. This is similar to CHARINDEX but with CHARINDEX we cannot use wildcards. Returns zero if specified pattern not found. Pattern Index
+	p) REPLACE - replaces all occurrences of a specified string value with another string value
+	q) STUFF - inserts replacement expression at the start position specified along with removing the characters specified using length parameter
+26) For date and time we can choose TIME, DATE, SMALLDATETIME, DATETIME, DATETIME2, and DATETIMEOFFSET. Difference is how grandular, how accuracy, and storage size (3-10 bytes stored).
+	You use DATETIMEOFFSET for timezone offsets. There are slight differences between GMT and UTC but for most purposes, they are synonymous.
+	a) GETDATE() - Commonly used
+	b) CURRENT_TIMESTAMP - ANSI SQL equivalent to GETDATE
+	c) SYSDATETIME() - More fractional seconds precision
+	d) SYSDATETIMEOFFSET() - More fractional seconds precision + time zone offset
+	e) GETUTCDATE() - UTC Date and Time
+	f) SYSUTCDATETIME() - UTC Date and Time, with more fractional seconds precision
+	g) ISDATE() - checks if the given value is a valid date, time, or datetime. Returns 1 for success, 0 for failure. Note, this function returns 0 for DATETIME2 formatted values
+	h) DAY() - returns the day number of the month of the given date
+	i) MONTH() - returns the month number of the year of the given date
+	j) YEAR() - returns the yeaer number of the given date
+	k) DATENAME() - returns a string that represents a part of the given date. This function takes 2 parameters. The first parameter date part specifies, the part of the date,
+					we want. The second parameter is the actual date from whcih we want the part of the date.
+	l) DATEPART() - returns an integer representing the specified date part. This function is similar to DATENAME() which returns nvarchar 
+	m) DATEADD() - returns the date time after adding specified number to add to the date part specified of the given date
+	n) DATEDIFF() - returns the count of the specified datepart boundaries crossed between the specified startdate and enddate
+27) When do you use CAST vs CONVERT? They both give you the same output but if you want grandular control of converted value and you can use CONVERT and specify the third parameter (style, 101-105 DateFormat)
+	CAST is based on ANSI standard and CONVERT is specific to SQL Server. So, if portability is a concern and if you want to use the script with other database applications, use CAST().
+	CONVERT provides more flexibility than CAST. E.g., it's possible to control how you want DATETIME datatypes to be converted using styles with CONVERT function
 
 
 
 
-continue on part 22
+continue on part 29
