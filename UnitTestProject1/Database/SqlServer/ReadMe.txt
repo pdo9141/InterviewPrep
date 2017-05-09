@@ -140,8 +140,35 @@
 27) When do you use CAST vs CONVERT? They both give you the same output but if you want grandular control of converted value and you can use CONVERT and specify the third parameter (style, 101-105 DateFormat)
 	CAST is based on ANSI standard and CONVERT is specific to SQL Server. So, if portability is a concern and if you want to use the script with other database applications, use CAST().
 	CONVERT provides more flexibility than CAST. E.g., it's possible to control how you want DATETIME datatypes to be converted using styles with CONVERT function
+28) Mathematical functions:
+	a) ABS() - ABS stands for absolute and returns, the absolute (positive) number
+	b) CEILING() and FLOOR() - accepts a numberica expression as a single parameter. CEILING() returns the largest integer value greater than or equal to the parameter, whereas FLOOR() returns
+	   the smallest integer less than or equal to the parameter
+	c) POWER() - returns the power value of the specifed expression to the specified power
+	d) SQUARE() - returns the square of the given number
+	e) SQRT() - returns the square root of the given number
+	f) RAND() - returns a random float number between 0 and 1. It takes an optional seed parameter. When seed value is supplied, the RAND() function always returns the same value for the same seed
+	g) ROUND() - rounds the given numberic expression based on the given length. This function takes 3 parameters, numeric expression, length, function (round or truncate number)
+29) What are scalar user defined functions? These functions may or may not have parameters, but always return a single (scalar) value. 
+	The returned value can be of any data type, except text, ntext, image, cursor, timestamp. To invoke scalar UDF, you must use two part name (e.g., dbo.CalculateAge('10/10/1978'))
+	A stored procedure also can accept DateOfBirth and return Age, but you cannot use an SP in SELECT or WHERE clauses.
+30) What are inline table valued functions? These functions return a table. E.g., SELECT * FROM fnEmployeesByGender('Male'), you can join as if regular table
+	a) We specify TABLE as the return type, instead of any scalar data type
+	b) The function body is not enclosed between BEGIN and END block
+	c) The structure of the table that gets returned is determined by the SELECT statement within the function
+31) What are multi statement table valued functions? These functions are very similar to inline table valued functions with slight differences. The function signature you specify the table structure.
+	a) Prefer inline table valued functions over multi statement table valued functions for better performance. If given a task, if it can be achieved using an inline table valued function, use it.
+	   Internally, SQL Server treats an inline table valued function much like it would a view and treats a multi-statement valued function similar to how it would a stored procedure	
+	b) It's possible to update the underlying table, using an inline table valued function but not possible using multi-statement table valued functions	
+32) Here are some important concepts related to functions in SQL Server:
+	a) Deterministic functions always return the same result any time they are called with a specific set of input values and give the same state of the DB. SQUARE(), POWER(), SUM(), AVG(), COUNT()
+	b) Nondeterministic functions may return different results each time they are called with a specific set of input values even if DB state they access remains the same. GETDATE(), CURRENT_TIMESTAMP
+	c) RAND() is a nondeterministic function unless you provide the seed value.
+	d) Encrypting a function definition using WITH ENCRYPTION OPTION works similar to encryption with stored procedures. 
+	e) Creating a function WITH SCHEMABINDING option specifies that the function is bound to the database objects that it references. When SCHEMABINDING is specified, the base objects cannot be modified
+	   in any way that would affect the function definition. The function definition itself must first be modified or dropped to remove dependencies on the object that is to be modified.
+	   It's considered best practice to create your functions using the WITH SCHEMABINDING option. You'll get an error if you try to drop a table referenced within a function.	
 
 
 
-
-continue on part 29
+continue on part 34
