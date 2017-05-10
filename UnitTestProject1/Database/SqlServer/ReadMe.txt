@@ -168,7 +168,17 @@
 	e) Creating a function WITH SCHEMABINDING option specifies that the function is bound to the database objects that it references. When SCHEMABINDING is specified, the base objects cannot be modified
 	   in any way that would affect the function definition. The function definition itself must first be modified or dropped to remove dependencies on the object that is to be modified.
 	   It's considered best practice to create your functions using the WITH SCHEMABINDING option. You'll get an error if you try to drop a table referenced within a function.	
+33) What are temporary tables? They are very similar to permanent tables. Permanent tables get created in the database you specify and remain in the DB permanently until you delete them. Temporary
+	tables get created in the TempDB and are automatically deleted when they are no longer used. You can query the local temp table with this command: SELECT * FROM TempDB..SYSOBJECTS WHERE Name LIKE '%PersonDetails%'
+	Local temp tables will automatically droppe dwhen the connection that created it is closed. User can explicitly drop the temp table. If you create a local temp table as part of a SP, it gets dropped upon completion of SP execution. 
+	It is possible for different connections to create local temp table with same name. When you view TempDB/Temporary Tables the design view you'll notice that the temp table name is appended with underscores and random numbers.
+	Global temp tables are available to all SQL Server connections. In designer view, you won't see underscores and random numbers. They are dropped when last connection referencing the table is closed.
+	a) Local temporary tables: #PersonDetails
+	b) Global temporary tables: ##PersonDetails
+34) You can create indexes on tables and views. You want to avoid Table Scans which is when SQL Server checks ever row in the table from beginning to end, bad for performance. With an index, SQL Server picks up the row addresses from
+	the index and directly fetch the records from the table, rather than scanning each row in the table, this is called an Index Seek. You can use SP_HELPINDEX [tablename] to find all indexes created for table.
 
 
 
-continue on part 34
+
+continue on part 36
