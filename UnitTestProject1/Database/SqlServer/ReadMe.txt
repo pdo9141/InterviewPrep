@@ -177,8 +177,34 @@
 	b) Global temporary tables: ##PersonDetails
 34) You can create indexes on tables and views. You want to avoid Table Scans which is when SQL Server checks ever row in the table from beginning to end, bad for performance. With an index, SQL Server picks up the row addresses from
 	the index and directly fetch the records from the table, rather than scanning each row in the table, this is called an Index Seek. You can use SP_HELPINDEX [tablename] to find all indexes created for table.
+35) Describe the different types of indexes. You can use sp_helpindex to view index info.
+	a) Clustered: determines the physical order of data in a table. For this reason, a table can have only one clustered index. If you don't auto increment primary key and insert rows out of order, SQL Server will sort in order.
+				  Clustered indexes are similar to a telephone directory, the lookup has the data. Clustered indexes can contain multiple columns, these are called composite indexes. Only one clustered index per table
+	b) Nonclustered: you can have multiple nonclustered indexes on a table. This is similar to a table of contents or index in the back of the book. You look at index to find page number to get to the real data.
+					 In he index itself, the data is stored in an asc or desc order of the index key, which doesn't in any way influence the storage of data in the table. When compared to a clustered index, nonclustered indexes
+					 are slower since they only contain a pointer back to the data and because of this, they require additional disk space
+	c) Unique: unique index is used to enforce uniqueness of key values in the index. By default, primary key constraint creates a unique clustered index. Uniqueness is a property of an index and both clustered and nonclustered
+			   indexes can be unique. There are no major differences between a unique index and constraint. In fact, when you add a unique constraint, a unique index gets created behind the scenes
+	d) Filtered
+	e) XML
+	f) Full Text
+	g) Spatial
+	h) Columnstore
+	i) Index with included columns
+	j) Index on computed columns
+36) What are the pros and cons of using indexes? 
+	a) Advantages: indexes makes your reads faster. Insert, updates, and deletes benefit if predicate uses an index column if there are not too many indexes. 
+				   ORDER BY sorting is faster as well if index columns are used. GROUP BY grouping is faster as well if inde columns are used.
+	b) Disadvantages: additional disk space required if nonclustered index. DML (Data Manipulation Language) statements INSERT, UPDATE, DELETE can become slow since data in all indexes also needs to be updated. Indexes can help
+				      to search and locate the rows we want to DELETE but too many indexes to update can actually hurt performance of data modifications
+37) What is a covering index? If all the columns that you have requested in the SELECT clause of query are present in the index, then there is no need to lookup table. These are covering indexes (use INCLUDE). A clustered index
+	is always a covering index obviously since it contains all of the data in a table. If you have an index on the salary column and your query only returns the salary column, it's a covering query
+38) What is a view and it's advantages? A view is nothing more than a saved SQL query. It can also be considered as a virtual table. Views can be used to reduce complexity of DB schema. Views can be used as a mechanism to implement
+	row and column level security. Views can be used to present aggregated data and hide detailed data.
+39) Is it possible to INSERT, UPDATE, or DELETE from the underlying base table tblEmployees through the view? Yes, be careful when you're updating a view when your view's query contains more than one table.
+40) What is an indexed view? When you create an index on a view, the view gets materialized. This means, the view is now capable of storing data. This is usually best used in OLAP (data warehouses). To create an indexed view you
+	must create the view with SCHEMABINDING. If an aggregate function in the SELECT list references an expression, and if there is a possibility for that expression to become NULL, then a replacement value should be specified.
+	If GROUP BY is specified, the view SELECT list must contain a COUNT_BIG(*) expression. The base tables in the view should be referenced with 2 part name. Indexed views are only good on tables that don't change frequently.
 
 
-
-
-continue on part 36
+continue on part 42
