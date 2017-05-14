@@ -227,7 +227,31 @@
 47) What are derived tables? When you define your SQL within parenthesis and use the AS keyword to define your table data name. SELECT DeptName, TotalEmployees FROM (your SQL) AS EmployeeCOUNT WHERE TotalEmployees >= 2.
 	Derived tables are available only in the context of the current query.
 48) What ace common table expressions (CTE)? A CTE is similar to a derived table in that it is not stored as an object and lasts only for the duration of the query. Basically it's a derived table that you define the structure 
-	of before you use it in the query. WITH cteEmployeeCount AS (your SQL), specifying column names is optional
+	of before you use it in the query. WITH cteEmployeeCount AS (your SQL), specifying column names is optional. Add them when you want different names returned from the SELECT query within your CTE.
+	A CTE can only be referenced by a SELECT, INSERT, UPDATE, or DELETE statement that immediately follows the CTE. When using multiple CTEs, use a comma to demarcate the CTEs, you only need to use one WITH clause.
+	When using multiple CTEs, you can leverage the UNION statement with two SELECT statements and SQL Server will treat it as one query.
+	You can update the underlying base table in a CTE if you're only working with one table or if the update affects only one table in a multiple table CTE (column names in UPDATE must be distinct in tables)
+	You cannot update multiple tables in your UPDATE statement when trying to update using CTE.
+	Be careful, even if your UPDATE succeeds, if CTE uses multiple tables, you might not get the results you're expecting. E.g., you update DeptName for a certain employee but it actually updates the DeptName in lookup table
+49) How can you utilize a recursive CTE to display employees and their manager along with the hierarchy level? Table EmployeeManager has EmployeeId, Name, ManagerId
+	WITH EmployeeCTE (EmployeeId, Name, ManagerId, [Level]) AS (
+		SELECT EmployeeId, Name, ManagerId, 1
+		FROM tblEmployee WHERE ManagerId IS NULL
+			UNION ALL
+		SELECT tblEmployee.EmployeeId, tblEmployee.Name, tblEmployee.ManagerId, EmployeesCTE.[Level] + 1
+		FROM tblEmployee 
+		JOIN EmployeesCTE ON tblEmployee.ManagerId = EmployeesCTE.EmployeeId
+	)
+
+	SELECT EmpCTE.Name as Employee, ISNULL(MgrCTE.Name, 'Super Boss') AS Manager, EmpCTE.[Level]
+	FROM EmployeesCTE EmpCTE
+	LEFT JOIN EmployeesCTE MgrCTE ON EmpCTE.ManagerId = MgrCTE.EmployeeId 
+50) Describe DB normalization? Is the process of organizing data to minimize data redundancy (duplication) which in turn ensures data consistency. Problems of data redundancy include disk space waste, data inconsistency, and slow DML queries.
+	Database normalization is a step by step process. There are 6 normal forms, First Normal Form (1NF) thru Sixth Normal Form (6NF). Most DBs are in third normal form (3NF). There are certain rules that each normal form should follow.
+	a) 1NF: The data in each column should be atomic. No multiple values, separated by commas (Employee column values is 'Sam, Mike, Shan'). The table does not contain any repeating column groups (columns names include Employee1, Employee2, Employee3). 
+	   Identify each record uniquely using primary key (tables to reference association using foreign keys).
+	b) 2NF: Meets all 1NF conditions, move redundant data to a separate table, create relationship between these tables using foreign keys.
+	c) 3NF: Meets all 1NF and 2NF conditions, does not contain columns (attributes) that are not fully dependent upon the primary key (e.g., an AnnualSalary (computed) and DeptHead (depends on DeptName or DeptId not EmpId primary key) in Employees table)
 
 
-continue on part 49
+continue on part 54
