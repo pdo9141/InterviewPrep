@@ -173,6 +173,8 @@
 	Local temp tables will automatically droppe dwhen the connection that created it is closed. User can explicitly drop the temp table. If you create a local temp table as part of a SP, it gets dropped upon completion of SP execution. 
 	It is possible for different connections to create local temp table with same name. When you view TempDB/Temporary Tables the design view you'll notice that the temp table name is appended with underscores and random numbers.
 	Global temp tables are available to all SQL Server connections. In designer view, you won't see underscores and random numbers. They are dropped when last connection referencing the table is closed.
+	When you use SELECT INTO a temporary table, you don't have to define the temporary table definition, SQL SERVER will derive from the SELECT list.
+	You you declare a local temp table in an SP, you can use the same temp table within an SP that is called from within the original SP.
 	a) Local temporary tables: #PersonDetails
 	b) Global temporary tables: ##PersonDetails
 34) You can create indexes on tables and views. You want to avoid Table Scans which is when SQL Server checks ever row in the table from beginning to end, bad for performance. With an index, SQL Server picks up the row addresses from
@@ -205,6 +207,27 @@
 40) What is an indexed view? When you create an index on a view, the view gets materialized. This means, the view is now capable of storing data. This is usually best used in OLAP (data warehouses). To create an indexed view you
 	must create the view with SCHEMABINDING. If an aggregate function in the SELECT list references an expression, and if there is a possibility for that expression to become NULL, then a replacement value should be specified.
 	If GROUP BY is specified, the view SELECT list must contain a COUNT_BIG(*) expression. The base tables in the view should be referenced with 2 part name. Indexed views are only good on tables that don't change frequently.
+41) What are the limitations of views? 
+	a) You cannot pass parameters to a view. Table Valued functions are an excellent replacement for parameterized views
+	b) Rules and Defaults cannot be associated with views
+	c) The ORDER BY clause is invalid in views unless TOP or FOR XML is also specified
+	d) Views cannot be based on temporary tables
+42) What are DML triggers? Fired automatically in response to DML events (INSERT, UPDATE, DELETE). They can be classified into 2 types, after triggers (FOR triggers) and instead of triggers. After triggers fires after triggering
+	action. The INSERT, UPDATE, and DELETE statements, causes an after trigger to fire after the respective statements are completed. Instead of triggers fire instead of the triggering actions. The INSERT, UPDATE, and DELETE
+	statements, causes an instead of trigger to fire instead of the respective statement execution.
+	a) FOR INSERT trigger: you'll use the INSERTED table to access new values
+	b) FOR DELETE trigger: you'll use the DELETED table to access old values
+	c) FOR UPDATE trigger: you'll use the DELETED and INSERTED tables to access what values used to be and the new values
+43) Why would you ever use an INSTEAD OF INSERT trigger? Imagine a scenario where you want to INSERT into a VIEW that joins multiple tables? You won't be able to do this because SQL SERVER will be confused. What you can do is 
+	create an INSTEAD OF trigger which will get triggered when you try to INSERT into the VIEW. In the trigger, you can use the special tables (INSERTED, DELETED), you can check your invariants and throw an error if necessary.
+44) Why would you ever use an INSTEAD OF UPDATE trigger? Same scenario as INSTEAD OF INSERT since views won't allow you to update if view affects multiple tables
+45) Why would you ever use an INSTEAD OF DELETE trigger? Same scenario as INSTEAD OF INSERT since views won't allow you to delete if view affects multiple tables
+46) What are table variables? Just like temp tables, a table variable is also created in TempDB. The scope of a table variable is the batch, stored procedure, or statement block in which it is declared. They can be passed as
+	parameters between procedures. Unlike temp tables, you still have to define your table structure when you use SELECT INTO.
+47) What are derived tables? When you define your SQL within parenthesis and use the AS keyword to define your table data name. SELECT DeptName, TotalEmployees FROM (your SQL) AS EmployeeCOUNT WHERE TotalEmployees >= 2.
+	Derived tables are available only in the context of the current query.
+48) What ace common table expressions (CTE)? A CTE is similar to a derived table in that it is not stored as an object and lasts only for the duration of the query. Basically it's a derived table that you define the structure 
+	of before you use it in the query. WITH cteEmployeeCount AS (your SQL), specifying column names is optional
 
 
-continue on part 42
+continue on part 49
