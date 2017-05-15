@@ -252,6 +252,22 @@
 	   Identify each record uniquely using primary key (tables to reference association using foreign keys).
 	b) 2NF: Meets all 1NF conditions, move redundant data to a separate table, create relationship between these tables using foreign keys.
 	c) 3NF: Meets all 1NF and 2NF conditions, does not contain columns (attributes) that are not fully dependent upon the primary key (e.g., an AnnualSalary (computed) and DeptHead (depends on DeptName or DeptId not EmpId primary key) in Employees table)
+51) What is the PIVOT operator? It can be used to turn unique values from one column into multiple columns in the output, there by effectively rotating a table. Always use a derived table if table contains columns you don't need in PIVOT, e.g., an ID column 
+	Table tblProductSales (Id, SalesAgent, SalesCountry, SalesAmount), PivotTable (SalesAgent, India, US, UK)
+	SELECT SalesAgent, India, US, UK
+	FROM (
+		SELECT SalesAgent, SalesCountry, SalesAmount
+		FROM tblProductSales
+	) AS SourceTable
+	PIVOT (
+		SUM(SalesAmount) FOR SalesCountry IN ([India], [US], [UK])
+	) AS PivotTable
+52) How is error handling done in SQL Server? Use the RAISERROR function, RAISERROR('Error Message', ErrorSeverity, ErrorState), most of the time the ErrorSeverity is 16 which indicates general errors that can be corrected by the user. 
+	ErrorState = a number between 1 and 255. RAISERROR only generates errors with state from 1 through 127. Use the system function @@ERROR <> 0 to check if statement has completed successfully. Rollback your transaction if you find an error.
+	Keep in mind that the @@ERROR is cleared and reset on each statement execution. Check it immediately following the statement being verified, or save it to a local variable that can be checked later.
+	It's better to use TRY CATCH over @@ERROR to detect your errors. To use TRY CATCH constructs, use BEGIN TRY END TRY BEGIN CATCH END CATCH. You cannot use TRY CATCH in user defined functions.
+	Use RAISERROR() in the catch block to return error to the client code. In the catch statement you can use the following system functions for error details: ERROR_NUMBER(), ERROR_MESSAGE(), ERROR_PROCEDURE(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE()
 
 
-continue on part 54
+
+continue on part 57
