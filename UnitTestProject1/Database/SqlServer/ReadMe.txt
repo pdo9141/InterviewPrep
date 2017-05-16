@@ -267,7 +267,43 @@
 	Keep in mind that the @@ERROR is cleared and reset on each statement execution. Check it immediately following the statement being verified, or save it to a local variable that can be checked later.
 	It's better to use TRY CATCH over @@ERROR to detect your errors. To use TRY CATCH constructs, use BEGIN TRY END TRY BEGIN CATCH END CATCH. You cannot use TRY CATCH in user defined functions.
 	Use RAISERROR() in the catch block to return error to the client code. In the catch statement you can use the following system functions for error details: ERROR_NUMBER(), ERROR_MESSAGE(), ERROR_PROCEDURE(), ERROR_STATE(), ERROR_SEVERITY(), ERROR_LINE()
+53) SQL Server default is to allow only reads on committed data. It might be an option to change this to allow reads of all data, SET TRANSACTION ISOLATION LEVEL READ UNCOMMITTED
+	a) Atomic: All statements in the transaction either completed successfully or they were all rolled back. The task that the set of operations represents is either accomplised or not, but in any case not left half-done
+	b) Consistent: All data touched by the transaction is left in a logically consistent state. E.g., if stock available numbers are decremented from tblProducts then there has to be related entry in tblProductSales. The inventory can't just disappear
+	c) Isolated: Transaction must affect data without interfering with other concurrent transactions, or being interfed with by them. This prevents transactions from making changes to data based on uncommited information, for example changes to a record
+		         that are subsequently rolled back. Most databases use locking to maintain transaction isolation
+	d) Durable: Once a change is made, it is permanent. If a system error or power failure occures before a set of commands is complete, those commands are undone and the data is restored to it's original state once the system begins running again
+54) What is a subquery? Subqueries also referred to as inner queries always return one column. You can use subqueries in WHERE and SELECT clauses. Subqueries can be nested up to 32 levels. Queries that contain the subquery is called the outer query.
+	The columns from a table that is present only inside a subquery, cannot be used in the SELECT list of the outer query.
+	SELECT Id, Name, [Description]
+	FROM tblProducts
+	WHERE Id NOT IN (
+		SELECT DISTINCT(ProductId)
+		FROM tblProductSales
+	)
+
+	SELECT tblProducts.Id, tblProducts.Name, tblProducts.[Description]
+	FROM tblProducts
+	LEFT JOIN tblProductSales ON tblProducts.Id = tblProductSales.ProductId
+	WHERE tblProductSales.ProductId IS NULL
+
+	SELECT Name
+	(SELECT SUM(QuantitySold) FROM tblProductSales WHERE ProductId = tblProducts.Id) AS QtySold
+	FROM tblProducts
+
+	SELECT Name, SUM(QuantitySold) AS QtySold
+	FROM tblProducts
+	LEFT JOIN tblProductSales ON tblProducts.Id = tblProductSales.ProductId
+	GROUP BY Name
+55) What is a correlated subquery? If the subquery depends on the outer query for its values then that subquery is called a correlated subquery. Correlated subqueries get executed once for every row that is selected by the outer query. 
+	Correlated subqueries cannot be executed independently of the outer query. Remember, sub query cannot be executed on it's own.
+	SELECT Name
+	(SELECT SUM(QuantitySold) FROM tblProductSales WHERE ProductId = tblProducts.Id) AS QtySold
+	FROM tblProducts
 
 
 
-continue on part 57
+
+
+
+continue on part 61
