@@ -300,10 +300,10 @@
 	SELECT Name
 	(SELECT SUM(QuantitySold) FROM tblProductSales WHERE ProductId = tblProducts.Id) AS QtySold
 	FROM tblProducts
+56) How do you create large table with random data for performance testing? See video61.sql
 
 
 
 
 
-
-continue on part 61
+continue on part 62
