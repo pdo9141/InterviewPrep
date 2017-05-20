@@ -301,9 +301,51 @@
 	(SELECT SUM(QuantitySold) FROM tblProductSales WHERE ProductId = tblProducts.Id) AS QtySold
 	FROM tblProducts
 56) How do you create large table with random data for performance testing? See video61.sql
+57) How do you clear query cache and execution plan cache?
+	CHECKPOINT
+	GO
+	DBCC DROPCLEANBUFFERS --clears query cache
+	GO
+	DBCC FREEPROCCACHE; --clears execution plan cache
+	GO
+58) What to choose for performance subquery or joins? According to MSDN, in most cases there is usually no performance difference. In some cases where existence must be checked, a join produces better performance. Otherwise the nested
+	query must be processed for each result of the outer query. In such cases, a join approach would yield better results. In general joins work faster than subqueries but in reality it all depends on the execution plan that is generated
+	by SQL Server. It does not matter how we have written the query, SQL Server will always transform it on an execution plan. If it is "smart" enough to generate the same plan from both queries, you will get the same result. Rather than 
+	going by theory, turn on client statistics and execution plan to see the performance of each option then make a decision. See video62.sql
+59) Explain cursors. If there is ever a need to process the rows, on a row-by-row basis, then cursors are your choice. Cursors are very bad for performance, and should be avoided always. Most of the time, cursors can be very easily replaced using joins.
+	Cursors are similar to the Iterator pattern, see video63.sql for cursor example, see video64.sql to achieve the same thing using joins.
+60) How do you list all tables in SQL Server? You can use the system tables: SYSOBJECTS, SYS.TABLES, or INFORMATION_SCHEMA.TABLES.
+	-- Gets the list of tables only
+	Select * from SYSOBJECTS where XTYPE='U'
+	-- Gets the list of tables only
+	Select * from  SYS.TABLES
+	-- Gets the list of tables and views
+	Select * from INFORMATION_SCHEMA.TABLES
+	--To get the list of different object types (XTYPE) in a database
+	Select Distinct XTYPE from SYSOBJECTS
+61) How do you write a re-runnable (repeatsafe, idempotent, script? 1. Check for the existence of the table 2. Create the table if it does not exist 3. Else print a message stating, the table already exists. See video66.sql
+62) How do you alter DB columns without dropping table? You have two options:
+	Option 1) Use a sql query to alter the column as shown below: Alter table tblEmployee Alter column Salary int
+	Option 2) Disable "Prevent saving changes that require table re-creation" option in sql server 2008
+		a. Open Microsoft SQL Server Management Studio 2008
+		b. Click Tools, select Options
+		c. Expand Designers, and select "Table and Database Designers"
+		d. On the right hand side window, uncheck, Prevent saving changes that require table re-creation
+		e. Click OK
+63) How do you use optional parameters in SQL Server stored procedures? Use "= NULL" in the argument list
+	Create Proc spSearchEmployees
+		@Name nvarchar(50) = NULL,
+		@Email nvarchar(50) = NULL,
+		@Age int = NULL,
+		@Gender nvarchar(50) = NULL
+	as
+	Begin
+		Select * from tblEmployee 
+		where (Name = @Name OR @Name IS NULL) AND
+		(Email = @Email OR @Email IS NULL) AND
+		(Age = @Age OR @Age IS NULL) AND
+		(Gender = @Gender OR @Gender IS NULL) 
+	End
 
 
-
-
-
-continue on part 62
+continue on part 69
