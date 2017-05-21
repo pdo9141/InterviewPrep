@@ -346,6 +346,37 @@
 		(Age = @Age OR @Age IS NULL) AND
 		(Gender = @Gender OR @Gender IS NULL) 
 	End
+64) What is the MERGE statement? It allows us to perform inserts, updates, and deletes in one statement. With merge statement we require 2 tables
+	1. Source Table - Contains the changes that needs to be applied to the target table
+	2. Target Table - The table that require changes (Inserts, Updates and Deletes)
+	The merge statement joins the target table to the source table by using a common column in both the tables. Based on how the rows match up as a result of the join, we can then perform insert, update, and delete on the target table. 
+	MERGE StudentTarget AS T
+	USING StudentSource AS S
+	ON T.ID = S.ID
+	WHEN MATCHED THEN
+		 UPDATE SET T.NAME = S.NAME
+	WHEN NOT MATCHED BY TARGET THEN
+		 INSERT (ID, NAME) VALUES(S.ID, S.NAME)
+	WHEN NOT MATCHED BY SOURCE THEN
+		 DELETE;
+65) Discuss concurrent transactions issues. Common concurrency problems include dirty reads, lost updates, nonrepeatable reads, phantom reads. To selectively mitigate these problems SQL Server provides transaction isolation levels
+	a) Read Uncommitted (D = Yes, L = Yes, N = Yes, P = Yes), lowest isolation level, you incur all common concurrency problems
+	b) Read Commimitted (D = No, L = Yes, N = Yes, P = Yes), this is SQL Server default
+	c) Repeatable Read (D = No, L = No, N = No, P = Yes)
+	d) Snapshot (D = No, L = No, N = No, P = No)
+	e) Serializable (D = No, L = No, N = No, P = No), highest isolation level, you will run into performance problems
+66) What is dirty read? A dirty read happens when one transaction is permitted to read data that has been modified by another transaction that has not yet been committed. In most cases this would not cause a problem. 
+	However, if the first transaction is rolled back after the second reads the data, the second transaction has dirty data that does not exist anymore, see video71.sql
+67) What is lost update? Lost update problem happens when 2 transactions read and update the same data. Let's understand this with an example, see video72.sql
+68) What is non repeatable read? Non repeatable read problem happens when one transaction reads the same data twice and another transaction updates that data in between the first and second read of transaction one, see video73.sql 
+69) What is phantom read? Phantom read happens when one transaction executes a query twice and it gets a different number of rows in the result set each time. 
+	This happens when a second transaction inserts a new row that matches the WHERE clause of the query executed by the first transaction, see video74.sql
+70) Difference between repeatable read and serializable. Repeatable read prevents only non-repeatable read. Repeatable read isolation level ensures that the data that one transaction has read, will be prevented from being updated or 
+	deleted by any other transaction, but it doe not prevent new rows from being inserted by other transactions resulting in phantom read concurrency problem. Serializable prevents both non-repeatable read and phantom read problems. 
+	Serializable isolation level ensures that the data that one transaction has read, will be prevented from being updated or deleted by any other transaction. It also prevents new rows from being inserted by other transactions, 
+	so this isolation level prevents both non-repeatable read and phantom read problems. 
 
 
-continue on part 69
+
+
+continue on part 75

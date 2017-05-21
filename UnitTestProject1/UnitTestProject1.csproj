@@ -121,11 +121,15 @@
     <Content Include="Database\Questions.txt" />
     <Content Include="Database\ReadMe.txt" />
     <Content Include="Database\SqlServer\ReadMe.txt" />
+    <Content Include="Database\SqlServer\video72.sql" />
     <Content Include="Database\SqlServer\video61.sql" />
     <Content Include="Database\SqlServer\video62.sql" />
     <Content Include="Database\SqlServer\video63.sql" />
     <Content Include="Database\SqlServer\video64.sql" />
     <Content Include="Database\SqlServer\video66.sql" />
+    <Content Include="Database\SqlServer\video71.sql" />
+    <Content Include="Database\SqlServer\video73.sql" />
+    <Content Include="Database\SqlServer\video74.sql" />
     <Content Include="Design Patterns\ReadMe.txt" />
     <Content Include="Entity Framework\Models\EmployeeModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
