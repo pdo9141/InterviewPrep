@@ -375,8 +375,59 @@
 	deleted by any other transaction, but it doe not prevent new rows from being inserted by other transactions resulting in phantom read concurrency problem. Serializable prevents both non-repeatable read and phantom read problems. 
 	Serializable isolation level ensures that the data that one transaction has read, will be prevented from being updated or deleted by any other transaction. It also prevents new rows from being inserted by other transactions, 
 	so this isolation level prevents both non-repeatable read and phantom read problems. 
+71) Read committed snapshot isolation level: Read committed snapshot isolation level is not a different isolation level. It is a different way of implementing Read committed isolation level. 
+	One problem we have with Read Committed isloation level is that, it blocks the transaction if it is trying to read the data, that another transaction is updating at the same time, see video76.sql
+72) Difference between snapshot isolation and read committed snapshot, see video77.sql
+	Update conflicts: Snapshot isolation is vulnerable to update conflicts where as Read Committed Snapshot Isolation is not. When a transaction running under snapshot isolation triess to update data that an another transaction is already updating at the sametime, an update conflict occurs and the transaction terminates and rolls back with an error. 
+	Existing application: If your application is using the default Read Committed isolation level, you can very easily make the application to use Read Committed Snapshot Isolation without requiring any change to the application at all. All you need to do is turn on READ_COMMITTED_SNAPSHOT option in the database, which will change read committed isolation to use row versioning when reading the committed data.
+	Distributed transactions: Read Committed Snapshot Isolation works with distributed transactions, whereas snapshot isolation does not.
+	Read consistency: Read Committed Snapshot Isolation provides statement-level read consistency where as Snapshot Isolation provides transaction-level read consistency. The following diagrams explain this.
+	#################################################################################################################################################################
+	Read Committed Snapshot Isolation															Snapshot Isolation
+	No update conflicts																			Vulnerable to update conflicts
+	Works with existing applications without requiring any change to the application			Application change may be required to use with an existing application
+	Can be used with distributed transactions													Cannot be used with distributed transactions
+	Provides statement-level read consistency													Provides transaction-level read consistency
+73) What is a deadlock? In a database, a deadlock occurs when two or more processes have a resource locked, and each process requests a lock on the resource that another process has already locked, see video78.sql 
+	Neither of the transactions here can move forward, as each one is waiting for the other to release the lock. When deadlocks occur, SQL Server will choose one of processes as the deadlock victim 
+	and rollback that process, so the other process can move forward. The transaction that is chosen as the deadlock victim will produce the following error.
+	Msg 1205, Level 13, State 51, Line 1
+	Transaction (Process ID 57) was deadlocked on lock resources with another process and has been chosen as the deadlock victim. Rerun the transaction. 
+74) SQL Server deadlock victim selection, see video79.sql
+	How SQL Server detects deadlocks, Lock monitor thread in SQL Server, runs every 5 seconds by default to detect if there are any deadlocks. If the lock monitor thread finds deadlocks, 
+	the deadlock detection interval will drop from 5 seconds to as low as 100 milliseconds depending on the frequency of deadlocks. If the lock monitor thread stops finding deadlocks, 
+	the Database Engine increases the intervals between searches to 5 seconds. 
+	What happens when a deadlock is detected, When a deadlock is detected, the Database Engine ends the deadlock by choosing one of the threads as the deadlock victim. The deadlock victim's 
+	transaction is then rolled back and returns a 1205 error to the application. Rolling back the transaction of the deadlock victim releases all locks held by that transaction. This allows 
+	the other transactions to become unblocked and move forward. 
+	What is DEADLOCK_PRIORITY, By default, SQL Server chooses a transaction as the deadlock victim that is least expensive to roll back. However, a user can specify the priority of sessions 
+	in a deadlock situation using the SET DEADLOCK_PRIORITY statement. The session with the lowest deadlock priority is chosen as the deadlock victim. 
+	DEADLOCK_PRIORITY 
+	1. The default is Normal
+	2. Can be set to LOW, NORMAL, or HIGH
+	3. Can also be set to a integer value in the range of -10 to 10.
+	 LOW : -5
+	 NORMAL : 0
+	 HIGH : 5 
+
+	What is the deadlock victim selection criteria
+	1. If the DEADLOCK_PRIORITY is different, the session with the lowest priority is selected as the victim
+	2. If both the sessions have the same priority, the transaction that is least expensive to rollback is selected as the victim
+	3. If both the sessions have the same deadlock priority and the same cost, a victim is chosen randomly 
+75) Logging deadlocks in sql serverWhen deadlocks occur, SQL Server chooses one of the transactions as the deadlock victim and rolls it back. There are several ways in SQL Server to track down 
+	the queries that are causing deadlocks. One of the options is to use SQL Server trace flag 1222 to write the deadlock information to the SQL Server error log. 
+	Enable Trace flag : To enable trace flags use DBCC command. -1 parameter indicates that the trace flag must be set at the global level. If you omit -1 parameter the trace flag will be set 
+	only at the session level. 
+
+	DBCC Traceon(1222, -1) 
+
+	To check the status of the trace flag
+	DBCC TraceStatus(1222, -1) 
+
+	DBCC Traceoff(1222, -1)
+	
+	To read the error log
+	EXECUTE sp_readerrorlog 
 
 
-
-
-continue on part 75
+continue on part 81
