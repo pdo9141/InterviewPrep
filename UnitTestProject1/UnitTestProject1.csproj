@@ -134,6 +134,11 @@
     <Content Include="Database\SqlServer\video77.sql" />
     <Content Include="Database\SqlServer\video78.sql" />
     <Content Include="Database\SqlServer\video79.sql" />
+    <Content Include="Database\SqlServer\video83.sql" />
+    <Content Include="Database\SqlServer\video85.txt" />
+    <Content Include="Database\SqlServer\video86.sql" />
+    <Content Include="Database\SqlServer\video88.sql" />
+    <Content Include="Database\SqlServer\video89.sql" />
     <Content Include="Design Patterns\ReadMe.txt" />
     <Content Include="Entity Framework\Models\EmployeeModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>

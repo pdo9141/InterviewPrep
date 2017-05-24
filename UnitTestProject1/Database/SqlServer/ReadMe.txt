@@ -414,7 +414,7 @@
 	1. If the DEADLOCK_PRIORITY is different, the session with the lowest priority is selected as the victim
 	2. If both the sessions have the same priority, the transaction that is least expensive to rollback is selected as the victim
 	3. If both the sessions have the same deadlock priority and the same cost, a victim is chosen randomly 
-75) Logging deadlocks in sql serverWhen deadlocks occur, SQL Server chooses one of the transactions as the deadlock victim and rolls it back. There are several ways in SQL Server to track down 
+75) Logging deadlocks in sql server. When deadlocks occur, SQL Server chooses one of the transactions as the deadlock victim and rolls it back. There are several ways in SQL Server to track down 
 	the queries that are causing deadlocks. One of the options is to use SQL Server trace flag 1222 to write the deadlock information to the SQL Server error log. 
 	Enable Trace flag : To enable trace flags use DBCC command. -1 parameter indicates that the trace flag must be set at the global level. If you omit -1 parameter the trace flag will be set 
 	only at the session level. 
@@ -428,6 +428,57 @@
 	
 	To read the error log
 	EXECUTE sp_readerrorlog 
+76) How do you capture deadlocks in SQL Profiler?
+	1. Open SQL Profiler
+	2. Click File - New Trace. Provide the credentials and connect to the server
+	3. On the general tab, select "Blank" template from "Use the template" dropdownlist
+	4. On the "Events Selection" tab, expand "Locks" section and select "Deadlock graph" event
+	5. Finally click the Run button to start the trace
+	6. At this point execute the code that causes deadlock
+	7. The deadlock graph should be captured in the profiler
 
+	The deadlock graph data is captured in XML format. If you want to extract this XML data to a physical file for later analysis, you can do so by following the steps below.
+	1. In SQL profiler, click on "File - Export - Extract SQL Server Events - Extract Deadlock Events"
+	2. Provide a name for the file
+	3. The extension for the deadlock xml file is .xdl
+	4. Finally choose if you want to export all events in a single file or each event in a separate file
 
-continue on part 81
+	The deadlock information in the XML file is similar to what we have captured using the trace flag 1222.
+
+	Analyzing the deadlock graph
+	1. The oval on the graph, with the blue cross, represents the transaction that was chosen as the deadlock victim by SQL Server.
+	2. The oval on the graph represents the transaction that completed successfully.
+	3. When you move the mouse pointer over the oval, you can see the SQL code that was running that caused the deadlock.
+	4. The oval symbols represent the process nodes a) Server Process Id : If you are using SQL Server Management Studio you can see the server process id on information bar at the bottom. b) Deadlock Priority : If you have not set DEADLOCK PRIORITY 
+	   explicitly using SET DEADLOCK PRIORITY statement, then both the processes should have the same default deadlock priority NORMAL (0). c) Log Used : The transaction log space used. If a transaction has used a lot of log space then the cost to roll it back is also more. 
+	   So the transaction that has used the least log space is killed and rolled back.
+	5. The rectangles represent the resource nodes. a) HoBt ID : Heap Or Binary Tree ID. Using this ID query sys.partitions view to find the database objects involved in the deadlock. SELECT object_name([object_id]) FROM sys.partitions WHERE hobt_id = 72057594041663488
+	6. The arrows represent types of locks each process has on each resource node.
+77) How do you handle deadlock with TRY CATCH? See video83.sql
+78) How do you handle deadlock in ADO.NET? Wrap around C# try catch, catch SqlException and look for ex.Number == 1205
+79) How can you implement retry logic for deadlock exceptions? Example uses C#, ASP.NET, SQL Server, and jQuery AJAX. See video85.txt for code snippet
+80) How to find blocking queries? One way to do this is by using DBCC OpenTran. DBCC OpenTran will display only the oldest active transaction. It is not going to show you all the open transactions. DBCC OpenTran
+	See video86.sql for query to find blocking.
+81) How do you kill processes in SQL Server?
+	Killing the process using SQL Server Activity Monitor: 
+	1. Right Click on the Server Name in Object explorer and select "Activity Monitor"
+	2. In the "Activity Monitor" window expand Processes section
+	3. Right click on the associated "Session ID" and select "Kill Process" from the context menu
+
+	Killing the process using SQL command: 
+	KILL Process_ID
+82) What is the EXCEPT operator? EXCEPT operator returns unique rows from the left query that aren’t in the right query's results, see video88.sql
+83) What is the difference between EXCEPT and NOT IN? Except filters duplicates and returns only DISTINCT rows from the left query that aren’t in the right query’s results, where as NOT IN does not filter the duplicates.
+	EXCEPT operator expects the same number of columns in both the queries, where as NOT IN, compares a single column from the outer query with a single column from the subquery.
+	Select Id, Name, Gender From TableA
+	Except
+	Select Id, Name, Gender From TableB
+
+	Select Id, Name, Gender From TableA
+	Where Id NOT IN (Select Id from TableB)
+84) What is the INTERSECT operator? Intersect operator retrieves the common records from both the left and the right query of the Intersect operator, see video89.sql
+85) What is the difference between INTERSECT and INNER JOIN?
+	1. INTERSECT filters duplicates and returns only DISTINCT rows that are common between the LEFT and Right Query, where as INNER JOIN does not filter the duplicates.
+	2. INNER JOIN treats two NULLS as two different values. So if you are joining two tables based on a nullable column and if both tables have NULLs in that joining column then, INNER JOIN will not include those rows in the result-set, where as INTERSECT treats two NULLs as a same value and it returns all matching rows.
+
+continue on part 90
