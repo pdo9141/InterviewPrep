@@ -102,6 +102,7 @@
     <Content Include="CSharp\TestQuestionsAnswers\Question03\Queries.sql" />
     <Content Include="CSharp\TestQuestionsAnswers\Question06\Queries.sql" />
     <Content Include="CSharp\TestQuestionsAnswers\Questions.txt" />
+    <Content Include="CSharp\YouTube\ReadMe.txt" />
     <Content Include="Database\Question01\Queries.sql" />
     <Content Include="Database\Question02\Queries.sql" />
     <Content Include="Database\Question03\Queries.sql" />
