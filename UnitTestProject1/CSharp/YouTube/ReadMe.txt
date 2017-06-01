@@ -18,11 +18,17 @@
 10) What is the difference between method overriding and method hiding? In method overriding a base class reference variable pointing to a child class object, will invoke the overridden method in the child class (use override in derived class).
 	In method hiding a base class reference variable pointing to a child class object will invoke the hidden method in the base class (use new in derived class method signature).
 11) What is encapsulation? When you only expose fields to the client you want exposed by using access modifiers such as private and protected. You can leverage setters and getters or properties to control value invariants
+12) What's the difference between struct and class? 
+	struct is value type, stored on stack, value types are destroyed immediately after scope is lost, when you copy struct into another struct a new copy gets created
+	class is reference type, stored on heap, object reference variable is stored on stack, only reference variable is destroyed after scope is lost, object is later destroyed by garbage collector, copying class only copies reference variable points to same object in heap
+13) Interfaces: Both classes and structs can inherit from an interface. Can only contain declarations and no implementation. Can contain properties, methods, delegates or events. Members are public by default and you cannot explicitly us access modifiers.
+	Cannot contain fields. Class or struct can inherit from more than one interface. Interfaces can inherit from other interfaces, class that inherits this interface must provide implementation for all interface members in the entire interface inheritance chain.
+	If Customer inherits from ICustomer1 and ICustomer2, ICustomer1 customer = new Customer() will only contain methods from ICustomer1
+14) What is explicit interface implementation? When a class implements multiple interfaces and they have same method names. You can remove the public access modifier and use the interface name, e.g, void I2.InterfaceMethod().
+	Keep in mind that you'll now have to cast the class to the interface to access the interface method or use the interface name as the variable reference.
+15) How do you implement a default method in an explicit interface implementation scenario? Implement the default normally and use explicit interface implementation for the other.	
 
 
 
-
-
-
-continue on video 27
+continue on video 32
 
