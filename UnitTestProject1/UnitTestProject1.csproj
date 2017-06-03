@@ -95,6 +95,7 @@
     <Content Include="ADO.NET\ReadMe.txt" />
     <Content Include="ASP.NET MVC\ReadMe.txt" />
     <Content Include="ASP.NET Web API\ReadMe.txt" />
+    <Content Include="ASP.NET Web API\ReadMeCSharpStar.txt" />
     <Content Include="CSharp\Questions.txt" />
     <Content Include="CSharp\ReadMe.txt" />
     <Content Include="CSharp\TestQuestionsAnswers\Question01\Queries.sql" />
