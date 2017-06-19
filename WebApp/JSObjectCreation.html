@@ -1,0 +1,63 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <meta charset="utf-8" />
+</head>
+<body>
+    <h1>JS Object Creation</h1>
+    <script type="text/javascript">
+
+        (function () {
+            //Define and create a single object, using an object literal.
+            var person = {
+                firstName: "Mason",
+                lastName: "Do",
+                age: 50,
+                eyeColor: "blue",
+                getFullName: function () {
+                    return this.firstName + " " + this.lastName;
+                }
+            };
+
+            //Define and create a single object, with the keyword new.
+            //There is no need to use new Object().
+            //For simplicity, readability and execution speed, use the first one (the object literal method).
+            var person1 = new Object();
+            person1.firstName = "Emma";
+            person1.lastName = "Do";
+            person1.age = 50;
+            person1.eyeColor = "blue";
+            person1.getFullName = function () {
+                return this.firstName + " " + this.lastName;
+            };
+
+            //Define an object constructor, and then create objects of the constructed type.
+            function person2(first, last, age, eye) {
+                this.firstName = first;
+                this.lastName = last;
+                this.age = age;
+                this.eyeColor = eye;
+                this.getFullName = function () {
+                    return this.firstName + " " + this.lastName;
+                };
+            }
+            var myFather = new person2("Phi", "Do", 50, "blue");
+            var myMother = new person2("Mony", "Do", 48, "green");
+
+            //In ECMAScript 5, an object can also be created with the function Object.create().
+            var person3 = Object.create(person);
+            person3.firstName = "Polo";
+            person3.lastName = "Oscar";
+
+            document.write("person.getFullName: " + person.getFullName() + "<br />");
+            document.write("person1.getFullName: " + person1.getFullName() + "<br />");
+            document.write("person2.getFullName: " + myFather.getFullName() + "<br />");
+            document.write("person3.getFullName: " + person3.getFullName() + "<br />");
+
+        })();
+
+    </script>
+
+</body>
+</html>

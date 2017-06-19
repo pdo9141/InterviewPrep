@@ -235,6 +235,7 @@
     <Content Include="Global.asax" />
     <Content Include="JSClosureTest.html" />
     <Content Include="JSFrameworksTest.html" />
+    <Content Include="JSObjectCreation.html" />
     <Content Include="JSPrototype.html" />
     <Content Include="JSScopeTest.html" />
     <Content Include="js\config.js" />
