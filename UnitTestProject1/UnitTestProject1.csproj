@@ -162,6 +162,7 @@
     <Content Include="Web\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="CSharp\Linq\" />
     <Folder Include="Web\CSS\" />
     <Folder Include="Web\HTML\" />
   </ItemGroup>

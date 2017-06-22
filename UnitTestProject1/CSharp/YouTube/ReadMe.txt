@@ -27,8 +27,15 @@
 14) What is explicit interface implementation? When a class implements multiple interfaces and they have same method names. You can remove the public access modifier and use the interface name, e.g, void I2.InterfaceMethod().
 	Keep in mind that you'll now have to cast the class to the interface to access the interface method or use the interface name as the variable reference.
 15) How do you implement a default method in an explicit interface implementation scenario? Implement the default normally and use explicit interface implementation for the other.	
+16) When inheriting abstract class, you must override abstract methods or mark that class abstract. Abstract classes cannot be sealed, instantiated. Abstract class can inherit from another abstract class or interface.
+17) Interface fields cannot have access modifiers (public by default), interfaces cannot contain fields. It can contain properties. Interfaces can inherit from another interface. Interfaces cannot inherit from abstract classes.
+18) C# doesn't support multiple inheritance but why? The Diamond Problem, if abstract class A (virtual print method) is inherited by class B and C, what if class D inherits from class B and C? What print method will class D print? From B or C?
+19) A delegate is a type safe (signature of delegate has to match signature of function it points to) function pointer. That is, they hold reference(Pointer) to a function. The signature of the delegate must match the signature of the function, 
+	the delegate points to, otherwise you get a compiler error. This is the reason delegates are called as type safe function pointer. A Delegate is similar to a class. You can create an instance of it, and when you do so, you pass in the function 
+	name as a parameter to the delegate constructor, and it is to this function the delegate will point to.
 
 
 
-continue on video 32
+
+continue on video 38
 
