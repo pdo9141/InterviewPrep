@@ -32,10 +32,21 @@
 18) C# doesn't support multiple inheritance but why? The Diamond Problem, if abstract class A (virtual print method) is inherited by class B and C, what if class D inherits from class B and C? What print method will class D print? From B or C?
 19) A delegate is a type safe (signature of delegate has to match signature of function it points to) function pointer. That is, they hold reference(Pointer) to a function. The signature of the delegate must match the signature of the function, 
 	the delegate points to, otherwise you get a compiler error. This is the reason delegates are called as type safe function pointer. A Delegate is similar to a class. You can create an instance of it, and when you do so, you pass in the function 
-	name as a parameter to the delegate constructor, and it is to this function the delegate will point to.
+	name as a parameter to the delegate constructor, and it is to this function the delegate will point to. Delegates are used a lot by framework developers to avoid hardcoding logic such as what is the rule to promote employees. The client
+	would be able to use the framework method and provide a delegate to state that employees with five years experience are promoted. A lambda expression can replace a delegate.
+20) What are multicast delegates? A Multicast delegate is a delegate that has references to more than one function. When you invoke a multicast delegate, all the functions the delegate is pointing to, are invoked.
+	Where do you use multicast delegates? Multicast delegate makes implementation of observer design pattern very simple. Observer pattern is also called as publish/subscribe pattern.
+	A multicast delegate, invokes the methods in the invocation list, in the same order in which they are added. If the delegate has a return type other than void and if the delegate is a multicast delegate, 
+	only the value of the last invoked method will be returned. Along the same lines, if the delegate has an out parameter, the value of the output parameter, will be the value assigned by the last method.
+	To chain delegates use the +, to remove use -, you can use += or -= as well
+	del4 = del1 + del2 + del3; 
+	del4();
+21) How do you make your custom exception class work across application domains? The object must be serializable. To make your exception class serializable mark it with Serializable attribute and provide a constructor 
+	that invokes the base Exception class constructor that takes in SerializationInfo and StreamingContext objects as parameters.
+22) What is exception handling abuse? Using exception handling to implement programming logic which is bad, and this is called as exception handling abuse. How do you prevent abuse? Instead of letting the code exception, add guards against
+	possible exceptions and message user or log. Avoid exceptions if you can for performance reasons.
 
 
 
-
-continue on video 38
+continue on video 45
 
