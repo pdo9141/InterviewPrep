@@ -45,8 +45,18 @@
 	that invokes the base Exception class constructor that takes in SerializationInfo and StreamingContext objects as parameters.
 22) What is exception handling abuse? Using exception handling to implement programming logic which is bad, and this is called as exception handling abuse. How do you prevent abuse? Instead of letting the code exception, add guards against
 	possible exceptions and message user or log. Avoid exceptions if you can for performance reasons.
+23) In general classes, structs, enums, interfaces, delegates are called as types and fields, properties, constructors, methods etc., that normally reside in a type are called as type members.
+	Type members can have all the access modifiers, where as types can have only 2 (internal, public) of the 5 access modifiers
+	There are 5 different access modifiers. 
+		1. Private: available only with in the containing type 
+		2. Protected: available within the containing type and to the types that derive from the containing type 
+		3. Internal: anywhere within the containing assembly
+		4. Protected Internal: anywhere within the containing assembly, and from within a derived class in any another assembly
+		5. Public: available any where, there is no restriction
 
 
 
-continue on video 45
+
+
+continue on video 52
 
