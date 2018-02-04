@@ -158,6 +158,7 @@
     <Content Include="Entity Framework\Part7\Queries.sql" />
     <Content Include="Entity Framework\ReadMe.txt" />
     <Content Include="Miscellaneous\ReadMe.txt" />
+    <Content Include="ProgrammingInterview\ReadMe.txt" />
     <Content Include="Web\Javascript\ReadMe.txt" />
     <Content Include="Web\ReadMe.txt" />
   </ItemGroup>
