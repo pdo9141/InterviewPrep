@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -8,6 +9,72 @@ namespace UnitTestProject1
     [TestClass]
     public class UnitTest1
     {
+        [TestMethod]
+        public void Matrix_Transpose_Test()
+        {
+            int[,] matrix = new int[4,4]
+            {
+                { 1, 2, 3, 4},
+                { 5, 6, 7, 8},
+                { 9, 10, 11, 12},
+                { 13, 14, 15, 16}
+            };
+
+            PrintMatrix(matrix);
+            Console.WriteLine("");
+            // matrix = TransposeMatrix(matrix);
+            TransposeMatrixBetter(matrix);
+            PrintMatrix(matrix);
+        }
+
+        private void TransposeMatrixBetter(int[,] matrix)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            for (int y = 0; y < rows; y++)
+            {
+                for (int x = y + 1; x < cols; x++)
+                {
+                    int temp = matrix[y, x];
+                    matrix[y, x] = matrix[x, y];
+                    matrix[x, y] = temp;
+                }
+            }
+        }
+
+        private int[,] TransposeMatrix(int[,] matrix)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+            int[,] result = new int[cols, rows];
+
+            for (int y = 0; y < cols; y++)
+            {
+                for (int x = 0; x < rows; x++)
+                {
+                    result[y, x] = matrix[x, y];
+                }
+            }
+
+            return result;
+        }
+
+        private void PrintMatrix(int[,] matrix)
+        {
+            int rows = matrix.GetLength(0);
+            int cols = matrix.GetLength(1);
+
+            for (int y = 0; y < rows; y++)
+            {
+                for (int x = 0; x < cols; x++)
+                {
+                    Console.Write(matrix[y,x] + "\t");
+                }
+                Console.WriteLine("");
+            }
+        }
+
         [TestMethod]
         public void Anonymous_Type_Test()
         {
